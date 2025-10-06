@@ -1,0 +1,176 @@
+/* src/App.css */
+
+/* ---- Design tokens ---- */
+:root{
+  --card-radius: 14px;
+  --card-padding: 1.25rem;
+  --card-height: 180px;
+  --card-min-width: 220px;
+  --text-color: #0f172a; /* dark slate for readability on pastels */
+  --muted: rgba(15,23,42,0.6);
+  --shadow: 0 8px 20px rgba(2,6,23,0.12);
+  --glass: rgba(255,255,255,0.18);
+}
+
+/* page layout */
+body, html, #root { height: 100%; margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f7fafc; color:var(--text-color); }
+
+.App {
+  padding: 2rem;
+}
+
+/* responsive grid for demo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* shared card */
+.weather-card{
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  min-height: var(--card-height);
+  min-width: var(--card-min-width);
+  box-shadow: var(--shadow);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms cubic-bezier(.2,.9,.25,1), box-shadow 220ms ease;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* focus + hover */
+.weather-card:focus,
+.weather-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(2,6,23,0.14);
+  outline: none;
+}
+
+/* headings */
+.weather-card h1{
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: inherit;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* small label under title (if needed) */
+.weather-card .sub {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .weather-card,
+  .weather-card:focus,
+  .weather-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ---- Gradient backgrounds for weather types ---- */
+
+/* Sunny / Clear Day */
+.sunny-day {
+  background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%); /* bright golden */
+  color: #06202a;
+}
+
+/* Clear Night */
+.clear-night {
+  background: linear-gradient(135deg, #0f172a 0%, #243b55 100%); /* deep blue */
+  color: #f7fbff;
+}
+
+/* Cloudy Day / Partly Cloudy */
+.cloudy-day {
+  background: linear-gradient(135deg, #d7d2cc 0%, #a3b1c6 100%);
+  color: #07223a;
+}
+.cloudy-night {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  color: #eef6ff;
+}
+
+/* Overcast */
+.overcast-day {
+  background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+  color: #fff;
+}
+.overcast-night {
+  background: linear-gradient(135deg, #434343 0%, #000000 100%);
+  color: #fff;
+}
+
+/* Fog */
+.fog-day {
+  background: linear-gradient(180deg, rgba(224,234,252,0.9) 0%, rgba(207,222,243,0.9) 100%);
+  color: #07223a;
+  box-shadow: 0 6px 20px rgba(25,40,70,0.06);
+}
+.fog-night {
+  background: linear-gradient(180deg, #757f9a 0%, #d7dde8 100%);
+  color: #08112a;
+}
+
+/* Drizzle (light rain) */
+.drizzle-day {
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  color: #032033;
+}
+.drizzle-night {
+  background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+  color: #f4f7fb;
+}
+
+/* Rain */
+.rain-day {
+  background: linear-gradient(135deg, #3a7bd5 0%, #3a6073 100%);
+  color: #f1f6fb;
+}
+.rain-night {
+  background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+  color: #f9fbff;
+}
+
+/* Snow */
+.snow-day {
+  background: linear-gradient(135deg, #e0eafc 0%, #ffffff 100%);
+  color: #07223a;
+}
+.snow-night {
+  background: linear-gradient(135deg, #83a4d4 0%, #b6fbff 100%);
+  color: #042033;
+}
+
+/* Thunderstorm */
+.thunderstorm-day {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  color: #f7f9fb;
+}
+.thunderstorm-night {
+  background: linear-gradient(135deg, #141E30 0%, #243B55 100%);
+  color: #f7fbff;
+}
+
+/* subtle decorative overlay (glass) to keep text readable on gradients */
+.weather-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
