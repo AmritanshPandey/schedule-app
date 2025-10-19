@@ -1,0 +1,14 @@
+.home-container {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.weather-section {
+ margin: 0 16px;
+}
+
+.schedule-section {
+ margin: 0 16px;
+}
+
