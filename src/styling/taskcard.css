@@ -1,0 +1,56 @@
+/* src/components/taskcard.css
+   Uses same tokens as your global.css (fallbacks not required if global defined)
+*/
+
+.task-card {
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  color: #111827;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+/* compact vs expanded */
+.task-card.compact { min-height: 68px; }
+.task-card.expanded { padding: 18px; }
+
+/* head row */
+.task-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-left { display: flex; gap: 12px; align-items: center; }
+.task-icon { width: 44px; height: 44px; display: grid; place-items:center; border-radius: 999px; background: rgba(255,255,255,0.4); }
+.task-icon svg { stroke: currentColor; color: inherit; }
+
+/* Title and subline */
+.task-title { font-weight: 700; font-size: 1rem; }
+.task-subline { font-size: 0.85rem; color: rgba(0,0,0,0.6); margin-top: 4px; }
+.task-duration { color: rgba(0,0,0,0.55); }
+
+/* right action */
+.task-right { display:flex; align-items:center; }
+.task-expand { background: white; border: none; width:36px; height:36px; border-radius:999px; display:grid; place-items:center; box-shadow:0 6px 14px rgba(2,6,23,0.08); cursor:pointer; }
+
+/* body / details */
+.task-body { margin-top: 14px; }
+.task-pill { display:inline-block; padding:6px 10px; border-radius:999px; font-size:0.85rem; background: rgba(255,255,255,0.85); color: #111827; margin-bottom:10px; font-weight:600; }
+.task-summary { margin: 8px 0 12px; color: rgba(0,0,0,0.7); }
+
+/* subtasks */
+.subtasks { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+.subtask { display:flex; justify-content:space-between; align-items:center; padding:10px; border-radius:12px; background: rgba(255,255,255,0.85); }
+.sub-left { display:flex; gap:10px; align-items:center; }
+.sub-label { font-weight:600; }
+.meta-pill { background: #000; color: #fff; padding:6px 10px; border-radius:999px; font-size:0.82rem; }
+
+/* dark / night variants (icons/pills need to be visible) */
+.task-card.night { color: #fff; }
+.task-card.night .task-icon { background: rgba(255,255,255,0.08); }
+.task-card.night .task-pill { background: rgba(255,255,255,0.08); color: #fff; }
+.task-card.night .subtask { background: rgba(255,255,255,0.04); color: #fff; }
+.task-card.night .task-subline { color: rgba(255,255,255,0.8); }

@@ -1,3 +1,4 @@
+// src/components/Weather.jsx
 import { useEffect, useState } from "react";
 import "../styling/weather.css";
 import { Icon } from "./icons";
@@ -18,7 +19,6 @@ const buildOpenMeteoURL = (latitude, longitude) => {
   return `${base}?${params.toString()}`;
 };
 
-// Map numeric weather codes to a category key
 function codeToCategory(code) {
   if (code === 0 || code === 1) return "clear";
   if (code === 2) return "partly-cloudy";
@@ -31,7 +31,6 @@ function codeToCategory(code) {
   return "unknown";
 }
 
-// Pick icon key (must match icons defined in your Icon component)
 function iconNameForCategory(category, isDay) {
   const map = {
     clear: isDay ? "sun" : "moonStars",
@@ -48,7 +47,7 @@ function iconNameForCategory(category, isDay) {
 }
 
 /* -------------------- Component -------------------- */
-export default function Weather() {
+export default function Weather({ total = 0 }) {
   const [weather, setWeather] = useState(null);
   const [daily, setDaily] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -119,7 +118,6 @@ export default function Weather() {
               <div>
                 <div className="weather-row">
                   <div className="weather-main">
-                    {/* Use your Icon component here */}
                     <div className="weather-icon" aria-hidden>
                       <Icon name={iconKey} size={24} stroke={1.6} />
                     </div>
@@ -129,14 +127,13 @@ export default function Weather() {
                       <div className="status">{statusLabel}</div>
                     </div>
                   </div>
-
-
                 </div>
+
                 <div className="weather-details">
                   <span className="weather-text">H: {high}°C &nbsp; L: {low}°C</span>
                 </div>
-
               </div>
+
               <span className="update-time">Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</span>
 
               {loading && <div className="weather-loading">Loading…</div>}
@@ -155,6 +152,7 @@ export default function Weather() {
                   </div>
                   <span>5:00 AM</span>
                 </div>
+
                 <div className="routine-container">
                   <div className="routine-icon" aria-hidden>
                     <Icon name="zzz" size={32} stroke={1.5} />
@@ -162,15 +160,14 @@ export default function Weather() {
                   <span>9:00 PM</span>
                 </div>
               </div>
+
               <div className="tasks-container">
                 <span className="task-title">Tasks</span>
                 <div className="task-number">
-                  <span>03</span>
+                  <span>{String(total).padStart(2, "0")}</span>
                 </div>
-
               </div>
             </div>
-
           </article>
         </div>
       </section>

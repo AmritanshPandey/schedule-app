@@ -27,7 +27,7 @@ const tasksData = {
         },
         {
           id: "t-mo-02",
-          title: "GMAT",
+          title: "GMAT", 
           start: "07:00",
           end: "09:30",
           category: "Study",

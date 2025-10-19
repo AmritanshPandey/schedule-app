@@ -150,6 +150,50 @@ button.primary:hover {
 .card.personal { background: var(--color-cream); }
 .card.learning { background: var(--color-sky); }
 
+
+
+/* category background styles used by task-card gradientClass values */
+
+/* Workout (soft yellow) */
+.cat-workout {
+  background: linear-gradient(180deg, #FFF5D8 0%, #FFE29B 100%);
+}
+
+/* Commute (muted pink) */
+.cat-commute {
+  background: linear-gradient(180deg, #FFDDE0 0%, #FFB2B2 100%);
+}
+
+/* Work (mint green) */
+.cat-work {
+  background: linear-gradient(180deg, #DFF7F0 0%, #AEEDE0 100%);
+}
+
+/* Food (pale teal) */
+.cat-food {
+  background: linear-gradient(180deg, #DFF7FA 0%, #B8F0EF 100%);
+}
+
+/* Personal (peach) */
+.cat-personal {
+  background: linear-gradient(180deg, #FFF2D9 0%, #FFE0A8 100%);
+}
+
+/* Study (lavender) */
+.cat-study {
+  background: linear-gradient(180deg, #F2E9FF 0%, #E6D4FF 100%);
+}
+
+/* Sleep (soft aqua) */
+.cat-sleep {
+  background: linear-gradient(180deg, #E8FFFB 0%, #CFF8F0 100%);
+}
+
+/* Unknown fallback */
+.cat-unknown {
+  background: linear-gradient(180deg, #F3F4F6 0%, #EDEFF2 100%);
+}
+
 /* ---------------------- SCROLLBAR (optional clean UI) ---------------------- */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb {

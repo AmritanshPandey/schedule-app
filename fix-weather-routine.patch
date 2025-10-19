@@ -1,0 +1,111 @@
+*** Begin Patch
+*** Update File: src/components/Weather.jsx
+@@
+   return (
+     <main>
+       <section className="weather-container">
+         <div className="left">
+-          <article className={`weather-card ${category} ${dayFlag ? "day" : "night"}`}>
+-            <div className="weather-card-left">
+-              <div>
+-                <div className="weather-row">
+-                  <div className="weather-main">
+-                    <div className="weather-icon" aria-hidden>
+-                      <Icon name={iconKey} size={24} stroke={1.6} />
+-                    </div>
+-
+-                    <div className="temp">
+-                      <div className="temp-value">{currentTemp}°C</div>
+-                      <div className="status">{statusLabel}</div>
+-                    </div>
+-                  </div>
+-                </div>
+-
+-                <div className="weather-details">
+-                  <span className="weather-text">H: {high}°C &nbsp; L: {low}°C</span>
+-                </div>
+-              </div>
+-
+-              <span className="update-time">Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</span>
+-
+-              {loading && <div className="weather-loading">Loading…</div>}
+-              {error && <div className="weather-error">Error: {error}</div>}
+-            </div>
+-          </article>
++          <article className={`weather-card ${category} ${dayFlag ? "day" : "night"}`}>
++            <div className="weather-card-left">
++              <div>
++                <div className="weather-row">
++                  <div className="weather-main">
++                    <div className="weather-icon" aria-hidden>
++                      <Icon name={iconKey} size={24} stroke={1.6} />
++                    </div>
++
++                    <div className="temp">
++                      <div className="temp-value">{currentTemp}°C</div>
++                      <div className="status">{statusLabel}</div>
++                    </div>
++                  </div>
++                </div>
++
++                <div className="weather-details">
++                  <span className="weather-text">H: {high}°C &nbsp; L: {low}°C</span>
++                </div>
++              </div>
++
++              <span className="update-time">Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</span>
++
++              {loading && <div className="weather-loading">Loading…</div>}
++              {error && <div className="weather-error">Error: {error}</div>}
++            </div>
++          </article>
+         </div>
+ 
+         <div className="right">
+           <article className="routine-card">
+             <div className="weather-card-right">
+-              <div className="routine-container-main">
+-                <div className="routine-container">
+-                  <div className="routine-icon" aria-hidden>
+-                    <Icon name="moodSmile" size={32} stroke={1.5} />
+-                  </div>
+-                  <span>5:00 AM</span>
+-                </div>
+-
+-                <div className="routine-container">
+-                  <div className="routine-icon" aria-hidden>
+-                    <Icon name="zzz" size={32} stroke={1.5} />
+-                  </div>
+-                  <span>9:00 PM</span>
+-                </div>
+-              </div>
++              <div className="routine-container-main">
++                <div className="routine-container">
++                  <div className="routine-icon" aria-hidden>
++                    <Icon name="moodSmile" size={32} stroke={1.5} />
++                  </div>
++                  <span>5:00 AM</span>
++                </div>
++
++                <div className="routine-container">
++                  <div className="routine-icon" aria-hidden>
++                    <Icon name="zzz" size={32} stroke={1.5} />
++                  </div>
++                  <span>9:00 PM</span>
++                </div>
++              </div>
+ 
+               <div className="tasks-container">
+                 <span className="task-title">Tasks</span>
+                 <div className="task-number">
+                   <span>{String(total).padStart(2, "0")}</span>
+                 </div>
+               </div>
+             </div>
+           </article>
+         </div>
+       </section>
+     </main>
+   );
+ }
+*** End Patch

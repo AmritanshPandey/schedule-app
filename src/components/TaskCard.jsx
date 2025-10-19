@@ -1,17 +1,11 @@
 // src/components/TaskCard.jsx
-import React from "react";
 import PropTypes from "prop-types";
 import { Icon } from "./icons";
 import { CATEGORIES } from "../data/categories";
-import "./taskcard.css";
+import "../styling/taskcard.css";
 
-/**
- * Helpers
- */
 function parseTime(hhmm) {
-  // expects "HH:MM" (24h) or "HH:MM AM/PM" optionally — keep simple
   if (!hhmm) return null;
-  // try ISO-like HH:MM
   const m = hhmm.match(/^(\d{1,2}):(\d{2})/);
   if (!m) return null;
   const hh = Number(m[1]);
@@ -22,52 +16,47 @@ function parseTime(hhmm) {
 }
 
 export function calcDuration(start, end) {
-  // start/end are strings "HH:MM" or Date-compatible; returns {minutes, human}
   const s = parseTime(start);
   let e = parseTime(end);
   if (!s) return { minutes: 0, human: "" };
-  if (!e) {
-    // if end missing, assume 1 hour
-    e = new Date(s.getTime() + 60 * 60 * 1000);
-  }
-  // if end is earlier than start assume next day
+  if (!e) e = new Date(s.getTime() + 60 * 60 * 1000);
+
   let diff = e - s;
   if (diff <= 0) diff += 24 * 60 * 60 * 1000;
   const minutes = Math.round(diff / 60000);
   const hrs = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  const human =
-    hrs > 0 ? (mins > 0 ? `${hrs} hr ${mins} min` : `${hrs} hr`) : `${mins} min`;
+  const human = hrs > 0 ? (mins > 0 ? `${hrs} hr ${mins} min` : `${hrs} hr`) : `${mins} min`;
   return { minutes, human };
 }
 
-/**
- * TaskCard
- *
- * Props:
- *  - task: {id,title,start,end,category,summary,subtasks: [ {label,meta?} ] }
- *  - expanded: bool   (if true show detail view)
- *  - onExpand: fn
- */
-export default function TaskCard({ task, expanded = false, onExpand }) {
-  const cat = CATEGORIES[task.category] || CATEGORIES.Unknown;
-  const duration = calcDuration(task.start, task.end);
+export default function TaskCard({ task = {}, expanded = false, onExpand }) {
+  const { id = "no-id", title = "", start = "", end = "", category, summary = "", subtasks = [] } = task;
+
+  const cat = CATEGORIES[category] || CATEGORIES.Unknown || { icon: "cloud", gradientClass: "cat-unknown" };
+  const duration = calcDuration(start, end);
+
+  const handleExpand = () => {
+    if (!onExpand) return;
+    onExpand(id);
+  };
 
   return (
     <article
       className={`task-card ${cat.gradientClass} ${expanded ? "expanded" : "compact"}`}
-      aria-labelledby={`task-${task.id}-title`}
-      role="article"
+      aria-labelledby={`task-${id}-title`}
     >
       <div className="task-card-head">
         <div className="task-left">
-          <div className="task-icon">
+          <div className="task-icon" aria-hidden>
             <Icon name={cat.icon} size={20} stroke={1.5} />
           </div>
+
           <div className="task-meta">
-            <div id={`task-${task.id}-title`} className="task-title">{task.title}</div>
-            <div className="task-subline">
-              <span className="task-time">{task.start}{task.end ? ` • ${task.end}` : ""}</span>
+            <div id={`task-${id}-title`} className="task-title">{title}</div>
+
+            <div className="task-subline" aria-hidden>
+              <span className="task-time">{start}{end ? ` • ${end}` : ""}</span>
               <span className="task-duration"> • {duration.human}</span>
             </div>
           </div>
@@ -75,9 +64,11 @@ export default function TaskCard({ task, expanded = false, onExpand }) {
 
         <div className="task-right">
           <button
+            type="button"
             className="task-expand"
             aria-label={expanded ? "Close details" : "Open details"}
-            onClick={() => onExpand && onExpand(task)}
+            aria-expanded={expanded}
+            onClick={handleExpand}
           >
             <Icon name="arrowUpRight" size={18} stroke={1.6} />
           </button>
@@ -86,23 +77,26 @@ export default function TaskCard({ task, expanded = false, onExpand }) {
 
       {expanded && (
         <div className="task-body">
-          {task.category && <span className="task-pill">{task.category}</span>}
-          {task.summary && <p className="task-summary">{task.summary}</p>}
+          {category && <span className="task-pill">{category}</span>}
+          {summary && <p className="task-summary">{summary}</p>}
 
-          {task.subtasks && task.subtasks.length > 0 && (
-            <ul className="subtasks">
-              {task.subtasks.map((st, idx) => (
-                <li key={idx} className="subtask">
-                  <div className="sub-left">
-                    {/* optional small icon per subtask type */}
-                    <Icon name={st.icon || "run"} size={16} stroke={1.2} />
-                    <span className="sub-label">{st.label}</span>
-                  </div>
-                  <div className="sub-meta">
-                    {st.meta ? <span className="meta-pill">{st.meta}</span> : null}
-                  </div>
-                </li>
-              ))}
+          {Array.isArray(subtasks) && subtasks.length > 0 && (
+            <ul className="subtasks" aria-label="Subtasks">
+              {subtasks.map((st, idx) => {
+                const metaText = st.display || st.meta || "";
+                const subId = `${id}-sub-${idx}`;
+                return (
+                  <li key={subId} className="subtask">
+                    <div className="sub-left">
+                      <Icon name={st.icon || "run"} size={16} stroke={1.2} />
+                      <span className="sub-label">{st.title || st.label}</span>
+                    </div>
+                    <div className="sub-meta">
+                      {metaText ? <span className="meta-pill">{metaText}</span> : null}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
@@ -112,7 +106,23 @@ export default function TaskCard({ task, expanded = false, onExpand }) {
 }
 
 TaskCard.propTypes = {
-  task: PropTypes.object.isRequired,
+  task: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    start: PropTypes.string,
+    end: PropTypes.string,
+    category: PropTypes.string,
+    summary: PropTypes.string,
+    subtasks: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        label: PropTypes.string,
+        display: PropTypes.string,
+        meta: PropTypes.string,
+        icon: PropTypes.string,
+      })
+    ),
+  }).isRequired,
   expanded: PropTypes.bool,
   onExpand: PropTypes.func,
 };
