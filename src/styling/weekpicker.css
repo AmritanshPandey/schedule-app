@@ -1,44 +1,47 @@
-
-
 /* optional header */
 .weekpicker-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:8px;
-  gap:8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
 }
+
 .weekpicker-title {
-  font-weight:600;
-  font-size:0.95rem;
-  color:#0f172a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #0f172a;
 }
+
 .weekpicker-arrow {
-  background:transparent;
-  border:0;
-  font-size:20px;
-  padding:6px 8px;
-  border-radius:8px;
-  cursor:pointer;
-  color:#111827;
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #111827;
 }
-.weekpicker-arrow:hover { background: rgba(0,0,0,0.04); }
+
+.weekpicker-arrow:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
 
 /* row container */
 .weekpicker-row {
-  display:flex;
+  display: flex;
   width: 100%;
-  align-items:center;
-  justify-content:flex-start;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* each day button */
 .weekpicker-day {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  border-radius:14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 14px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -51,27 +54,28 @@
 
 .weekday {
   font-size: 0.85rem;
-  color: #6b7280; /* muted */
+  color: #6b7280;
+  /* muted */
   letter-spacing: 0.02em;
 }
 
 /* the circular date badge */
 .date-circle {
-  width:40px;
-  height:40px;
-  border-radius:999px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
   background: #fff;
-  display:grid;
-  place-items:center;
-border: solid 1px #e5e7eb;
+  display: grid;
+  place-items: center;
+  border: solid 1px #e5e7eb;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 /* date number styling */
 .date-number {
-  font-weight:600;
-  color:#111827;
-  font-size:0.95rem;
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.95rem;
 }
 
 /* selected day style — black pill for the weekday label and white number in black circle */
@@ -81,12 +85,12 @@ border: solid 1px #e5e7eb;
 
 .weekpicker-day.selected .weekday {
   color: #fff;
-  font-weight:700;
+  font-weight: 700;
   background: #000;
-  padding:6px 12px;
-  border-radius:999px;
+  padding: 6px 12px;
+  border-radius: 999px;
   transform: translateY(-8px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* selected date circle */
@@ -94,13 +98,14 @@ border: solid 1px #e5e7eb;
   background: #000;
   transform: translateY(-6px);
 }
+
 .weekpicker-day.selected .date-number {
   color: #fff;
 }
 
 /* today marker (outline) if not selected */
 .weekpicker-day.today:not(.selected) .date-circle {
- border: solid 2px #3b82f6;
+  border: solid 2px #3b82f6;
 }
 
 /* hover */
@@ -110,17 +115,32 @@ border: solid 1px #e5e7eb;
 
 /* focus outline for accessibility */
 .weekpicker-day:focus {
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
+
   border-radius: 14px;
 }
 
 /* small screens: tighter spacing */
 @media (max-width:420px) {
-  .weekpicker-row { gap:8px; }
-  .date-circle { width:30px; height:30px; }
-  .weekday { font-size:0.8rem; }
-  .date-number { font-size:0.85rem; }
+  .weekpicker-row {
+    gap: 8px;
+  }
+
+  .date-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .weekday {
+    font-size: 0.8rem;
+  }
+
+  .date-number {
+    font-size: 0.85rem;
+  }
 }
 
 /* helper utility to center the week picker in containers */
-.weekpicker-center { display:flex; justify-content:center; }
+.weekpicker-center {
+  display: flex;
+  justify-content: center;
+}

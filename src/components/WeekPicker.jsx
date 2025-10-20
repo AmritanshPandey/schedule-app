@@ -52,29 +52,9 @@ const handleSelect = (date) => {
     <div className="weekpicker-root" role="region" aria-label="Week picker">
       {showMonthLabel && (
         <div className="weekpicker-header">
-          <button
-            className="weekpicker-arrow"
-            onClick={() => {
-              const prevWeek = new Date(internalDate);
-              prevWeek.setDate(prevWeek.getDate() - 7);
-              handleSelect(prevWeek);
-            }}
-            aria-label="Previous week"
-          >
-            ‹
-          </button>
+         
 
-          <button
-            className="weekpicker-arrow"
-            onClick={() => {
-              const nextWeek = new Date(internalDate);
-              nextWeek.setDate(nextWeek.getDate() + 7);
-              handleSelect(nextWeek);
-            }}
-            aria-label="Next week"
-          >
-            ›
-          </button>
+      
         </div>
       )}
 

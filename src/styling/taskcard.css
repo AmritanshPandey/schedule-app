@@ -1,56 +1,153 @@
-/* src/components/taskcard.css
-   Uses same tokens as your global.css (fallbacks not required if global defined)
-*/
-
 .task-card {
-  border-radius: 18px;
-  padding: 14px;
-  box-shadow: 0 8px 20px rgba(15,23,42,0.06);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  color: #111827;
-  margin-bottom: 12px;
+  border-radius: 24px;
+  padding: 16px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
   overflow: hidden;
 }
 
-/* compact vs expanded */
-.task-card.compact { min-height: 68px; }
-.task-card.expanded { padding: 18px; }
+
+.task-card.compact {
+  min-height: 72px;
+}
+
+.task-card.expanded {
+  padding: 16px;
+}
 
 /* head row */
 .task-card-head {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+}
+
+.task-card-head-content {
+  display: flex;
   justify-content: space-between;
+  gap: 4px;
   align-items: center;
 }
 
-.task-left { display: flex; gap: 12px; align-items: center; }
-.task-icon { width: 44px; height: 44px; display: grid; place-items:center; border-radius: 999px; background: rgba(255,255,255,0.4); }
-.task-icon svg { stroke: currentColor; color: inherit; }
+.task-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.task-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.91);
+}
+
+.task-icon svg {
+  stroke: currentColor;
+  color: inherit;
+}
 
 /* Title and subline */
-.task-title { font-weight: 700; font-size: 1rem; }
-.task-subline { font-size: 0.85rem; color: rgba(0,0,0,0.6); margin-top: 4px; }
-.task-duration { color: rgba(0,0,0,0.55); }
+.task-card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.task-subline {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 4px;
+}
+
+.task-duration {
+  color: rgba(0, 0, 0, 0.55);
+}
 
 /* right action */
-.task-right { display:flex; align-items:center; }
-.task-expand { background: white; border: none; width:36px; height:36px; border-radius:999px; display:grid; place-items:center; box-shadow:0 6px 14px rgba(2,6,23,0.08); cursor:pointer; }
+.task-right {
+  display: flex;
+  align-items: center;
+}
+
+.task-expand {
+  background: white;
+  border: none;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 8px 8px;
+}
+
+.task-pill {
+  display: inline-block;
+  padding: 6px 24px;
+  width: fit-content;
+  border-radius: 999px;
+  font-size: 1rem;
+  background-color: white;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.task-summary {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 600;
+}
 
 /* body / details */
-.task-body { margin-top: 14px; }
-.task-pill { display:inline-block; padding:6px 10px; border-radius:999px; font-size:0.85rem; background: rgba(255,255,255,0.85); color: #111827; margin-bottom:10px; font-weight:600; }
-.task-summary { margin: 8px 0 12px; color: rgba(0,0,0,0.7); }
+.task-body {
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+  padding: 8px;
+}
+
+
 
 /* subtasks */
-.subtasks { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
-.subtask { display:flex; justify-content:space-between; align-items:center; padding:10px; border-radius:12px; background: rgba(255,255,255,0.85); }
-.sub-left { display:flex; gap:10px; align-items:center; }
-.sub-label { font-weight:600; }
-.meta-pill { background: #000; color: #fff; padding:6px 10px; border-radius:999px; font-size:0.82rem; }
+.subtasks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-/* dark / night variants (icons/pills need to be visible) */
-.task-card.night { color: #fff; }
-.task-card.night .task-icon { background: rgba(255,255,255,0.08); }
-.task-card.night .task-pill { background: rgba(255,255,255,0.08); color: #fff; }
-.task-card.night .subtask { background: rgba(255,255,255,0.04); color: #fff; }
-.task-card.night .task-subline { color: rgba(255,255,255,0.8); }
+.subtask {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.sub-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sub-label {
+  font-weight: 600;
+}
+
+.meta-pill {
+  background: #000;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: var(--text-invert);
+}
+
+.task-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

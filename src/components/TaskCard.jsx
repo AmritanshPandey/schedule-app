@@ -47,38 +47,41 @@ export default function TaskCard({ task = {}, expanded = false, onExpand }) {
       aria-labelledby={`task-${id}-title`}
     >
       <div className="task-card-head">
-        <div className="task-left">
-          <div className="task-icon" aria-hidden>
-            <Icon name={cat.icon} size={20} stroke={1.5} />
-          </div>
+        <div className="task-card-head-content">
+          <div className="task-left">
+            <div className="task-icon" aria-hidden>
+              <Icon name={cat.icon} size={24} stroke={1.5} />
+            </div>
 
-          <div className="task-meta">
-            <div id={`task-${id}-title`} className="task-title">{title}</div>
+            <div className="task-meta">
+              <div id={`task-${id}-title`} className="task-card-title">{title}</div>
 
-            <div className="task-subline" aria-hidden>
-              <span className="task-time">{start}{end ? ` • ${end}` : ""}</span>
-              <span className="task-duration"> • {duration.human}</span>
+              <div className="task-subline" aria-hidden>
+                <span className="task-time">{start}{end ? ` • ${end}` : ""}</span>
+                <span className="task-duration"> • {duration.human}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="task-right">
-          <button
-            type="button"
-            className="task-expand"
-            aria-label={expanded ? "Close details" : "Open details"}
-            aria-expanded={expanded}
-            onClick={handleExpand}
-          >
-            <Icon name="arrowUpRight" size={18} stroke={1.6} />
-          </button>
+          <div className="task-right">
+            <button
+              type="button"
+              className="task-expand"
+              aria-label={expanded ? "Close details" : "Open details"}
+              aria-expanded={expanded}
+              onClick={handleExpand}
+            >
+              <Icon name="arrowUpRight" size={24} stroke={1.6} />
+            </button>
+          </div>
         </div>
+        {category && <span className="task-pill">{category}</span>}
+        {summary && <p className="task-summary">{summary}</p>}
       </div>
 
       {expanded && (
         <div className="task-body">
-          {category && <span className="task-pill">{category}</span>}
-          {summary && <p className="task-summary">{summary}</p>}
+
 
           {Array.isArray(subtasks) && subtasks.length > 0 && (
             <ul className="subtasks" aria-label="Subtasks">
@@ -88,7 +91,7 @@ export default function TaskCard({ task = {}, expanded = false, onExpand }) {
                 return (
                   <li key={subId} className="subtask">
                     <div className="sub-left">
-                      <Icon name={st.icon || "run"} size={16} stroke={1.2} />
+
                       <span className="sub-label">{st.title || st.label}</span>
                     </div>
                     <div className="sub-meta">

@@ -11,29 +11,31 @@ function HomePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [expandedId, setExpandedId] = useState(null);
 
-
   
+
   // normalize selected date to local midnight (avoid time-of-day issues)
   const normalizedSelectedDate = useMemo(() => {
     const d = selectedDate ? new Date(selectedDate) : new Date();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   }, [selectedDate]);
 
+  // pass the normalized date into the helper (50 = large limit)
   const summary = useMemo(() => {
     return getDailyTasksSummary(tasksData, normalizedSelectedDate, 50);
   }, [normalizedSelectedDate]);
 
   const { total = 0, upcoming: upcomingFromHelper = [] } = summary;
 
-  // show upcoming tasks that start after now; fallback to first three tasks of day
+  // show upcoming tasks that start after now; fallback to first tasks of day
   const visibleUpcoming = useMemo(() => {
     const now = new Date();
     return (upcomingFromHelper || [])
-      .filter((t) => t && t.startDate && t.startDate > now)
-      .slice(0, 3);
+      .filter((t) => t && t.startDate && t.startDate > now);
+      // note: no .slice here so we can show all if desired (UI may slice later)
   }, [upcomingFromHelper]);
 
-  const tasksToRender = visibleUpcoming.length ? visibleUpcoming : (upcomingFromHelper || []).slice(0, 3);
+  // show upcoming (if there are future tasks) otherwise show all tasks for the day
+  const tasksToRender = visibleUpcoming.length ? visibleUpcoming : (upcomingFromHelper || []);
 
   const toggle = (taskId) => setExpandedId((prev) => (prev === taskId ? null : taskId));
 
@@ -45,14 +47,12 @@ function HomePage() {
 
       <section className="schedule-section">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: 0 }}>My Schedule</h2>
-          <div className="task-count-badge" aria-live="polite" style={{ fontWeight: 700 }}>
-            {String(total).padStart(2, "0")}
-          </div>
+          <h2 style={{ margin: "16px 0" }}>My Schedule</h2>
         </div>
 
+    
         <WeekPicker
-          value={selectedDate}
+          value={normalizedSelectedDate}
           onChange={(d) => setSelectedDate(d)}
           showMonthLabel={false}
         />
