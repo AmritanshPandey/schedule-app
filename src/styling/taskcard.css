@@ -42,7 +42,7 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.91);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .task-icon svg {
@@ -151,3 +151,180 @@
   flex-direction: column;
   gap: 2px;
 }
+
+
+/* -------------------------
+   Past task visual treatment
+   ------------------------- */
+
+.task-card.past {
+  transition: opacity 180ms ease, box-shadow 180ms ease;
+  box-shadow: none;
+}
+
+
+/* Make text a touch more muted but still readable */
+.task-card.past .task-card-title,
+.task-card.past .task-subline,
+.task-card.past .task-summary,
+.task-card.past .sub-label {
+  color: var(--gray-800)
+}
+
+/* If you use a dark background for cards, add a night-safe rule */
+@media (prefers-color-scheme: dark) {
+
+  .task-card.past .task-card-title,
+  .task-card.past .task-subline,
+  .task-card.past .task-summary,
+  .task-card.past .sub-label {
+    color: var(--gray-800)
+  }
+}
+
+/* Optional: slightly reduce pointer affordance but keep clickable */
+.task-card.past:hover {
+  transform: none;
+  /* no hover lift for past tasks */
+}
+
+
+.task-card.past {
+  filter: grayscale(100%);
+  cursor: default;
+}
+
+
+
+.task-expand.animated {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;               
+  height: 56px;
+  padding: 6px;              
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 240ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; 
+}
+
+/* press / active state (touch) */
+.task-expand.animated:active,
+.task-expand.animated.touch-active {
+  transform: scale(0.94);
+  opacity: 0.92;
+}
+
+/* hover state (desktop) */
+.task-expand.animated:hover {
+  transform: scale(1.06);
+  opacity: 0.96;
+}
+
+/* rotate the expand control when the card is expanded */
+.task-card.expanded .task-expand.animated,
+.task-card.open .task-expand.animated {
+  transform: rotate(180deg) scale(1.02);
+  transition: transform 320ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* keep svg centered and inheriting color */
+.task-expand.animated svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+}
+
+
+/* ---------------------------
+   Card & icon small niceties
+   --------------------------- */
+
+.task-card {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  transition: transform 260ms ease, box-shadow 260ms ease, opacity 180ms ease;
+  will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* small nudge for the task icon when open
+.task-card.expanded .task-icon,
+.task-card.open .task-icon {
+  transform: translateY(-3px) scale(1.06);
+  transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+} */
+
+
+
+/* past tasks dim */
+.task-card.past {
+  opacity: 1;
+  filter: grayscale(1);
+}
+
+/* ---------------------------
+   Reveal / collapse animation for details
+   --------------------------- */
+
+/* wrapper controls overflow and animation via max-height + opacity */
+.task-body,
+.task-body-wrapper {
+  overflow: hidden;
+  transition: max-height 320ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease, transform 220ms ease;
+  max-height: 0;
+  opacity: 0;
+  transform-origin: top;
+}
+
+/* visible content when expanded (large max-height to fit content) */
+.task-card.expanded .task-body,
+.task-card.open .task-body,
+.task-card.expanded .task-body-wrapper,
+.task-card.open .task-body-wrapper {
+  max-height: 900px; /* sufficiently large for most lists */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* small spacing inside the revealed body */
+.task-body .subtasks {
+  margin: 8px 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+
+/* ---------------------------
+   Accessibility & reduced motion
+   --------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .task-expand.animated,
+  .task-card,
+  .task-body,
+  .task-icon {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .task-body,
+  .task-body-wrapper {
+    max-height: none;
+    opacity: 1;
+  }
+}
+
+/* ---------------------------
+   Tiny helpers (optional)
+   --------------------------- */
+/* make entire task-right hit area easy to tap */
+.task-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 8px;
+}
+

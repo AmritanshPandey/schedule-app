@@ -7,35 +7,44 @@ import TaskCard from "../components/TaskCard";
 import tasksData from "../data/task.js";
 import { getDailyTasksSummary } from "../lib/scheduleHelpers";
 
-function HomePage() {
+/*
+  Simpler rendering logic:
+  - Fetch enrichedTasks for selected date (helper gives startDate/endDate)
+  - Render tasks in chronological order (start time ascending)
+  - Compute isPast per task and pass it to TaskCard for visual dimming
+  - Keep expand/collapse behavior
+*/
+
+export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [expandedId, setExpandedId] = useState(null);
 
-  
-
-  // normalize selected date to local midnight (avoid time-of-day issues)
+  // normalize selected date to midnight local
   const normalizedSelectedDate = useMemo(() => {
     const d = selectedDate ? new Date(selectedDate) : new Date();
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   }, [selectedDate]);
 
-  // pass the normalized date into the helper (50 = large limit)
-  const summary = useMemo(() => {
-    return getDailyTasksSummary(tasksData, normalizedSelectedDate, 50);
-  }, [normalizedSelectedDate]);
+  // get enriched tasks for this weekday/date (limit large to include all tasks)
+  const summary = useMemo(() => getDailyTasksSummary(tasksData, normalizedSelectedDate, 50), [normalizedSelectedDate]);
 
-  const { total = 0, upcoming: upcomingFromHelper = [] } = summary;
+  const { total = 0, enrichedTasks = [] } = summary;
 
-  // show upcoming tasks that start after now; fallback to first tasks of day
-  const visibleUpcoming = useMemo(() => {
-    const now = new Date();
-    return (upcomingFromHelper || [])
-      .filter((t) => t && t.startDate && t.startDate > now);
-      // note: no .slice here so we can show all if desired (UI may slice later)
-  }, [upcomingFromHelper]);
+  // ensure tasks are sorted by startDate (helper already sorts but be safe)
+  const tasksSorted = useMemo(() => {
+    return (Array.isArray(enrichedTasks) ? enrichedTasks.slice() : []).sort((a, b) => {
+      const sa = a.startDate instanceof Date ? a.startDate.getTime() : Number.POSITIVE_INFINITY;
+      const sb = b.startDate instanceof Date ? b.startDate.getTime() : Number.POSITIVE_INFINITY;
+      return sa - sb;
+    });
+  }, [enrichedTasks]);
 
-  // show upcoming (if there are future tasks) otherwise show all tasks for the day
-  const tasksToRender = visibleUpcoming.length ? visibleUpcoming : (upcomingFromHelper || []);
+  const now = new Date();
+  const selMid = new Date(normalizedSelectedDate.getFullYear(), normalizedSelectedDate.getMonth(), normalizedSelectedDate.getDate()).getTime();
+  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const isSelectedBeforeToday = selMid < todayMid;
+  const isSelectedAfterToday = selMid > todayMid;
+  const isSelectedToday = selMid === todayMid;
 
   const toggle = (taskId) => setExpandedId((prev) => (prev === taskId ? null : taskId));
 
@@ -50,25 +59,39 @@ function HomePage() {
           <h2 style={{ margin: "16px 0" }}>My Schedule</h2>
         </div>
 
-    
-        <WeekPicker
-          value={normalizedSelectedDate}
-          onChange={(d) => setSelectedDate(d)}
-          showMonthLabel={false}
-        />
+        <WeekPicker value={normalizedSelectedDate} onChange={(d) => setSelectedDate(d)} showMonthLabel={false} />
       </section>
 
       <section className="tasks-section">
-        {tasksToRender.length === 0 ? (
+        {tasksSorted.length === 0 ? (
           <div className="empty-tasks">No tasks for this day</div>
         ) : (
-          tasksToRender.map((t) => (
-            <TaskCard key={t.id} task={t} expanded={expandedId === t.id} onExpand={toggle} />
-          ))
+          tasksSorted.map((t) => {
+            // compute isPast per task relative to selected date / now
+            let isPast = false;
+
+            if (isSelectedBeforeToday) {
+              isPast = true; // everything in the past
+            } else if (isSelectedAfterToday) {
+              isPast = false; // everything upcoming
+            } else if (isSelectedToday) {
+              if (t.endDate instanceof Date) {
+                isPast = t.endDate.getTime() <= now.getTime();
+              } else if (t.startDate instanceof Date) {
+                // fall back to startDate + duration
+                isPast = (t.startDate.getTime() + ((t.durationMinutes || 60) * 60000)) <= now.getTime();
+              } else {
+                isPast = false;
+              }
+            }
+
+            return (
+              <TaskCard key={t.id} task={t} expanded={expandedId === t.id} onExpand={toggle} isPast={isPast} />
+            );
+          })
         )}
       </section>
+   
     </main>
   );
 }
-
-export default HomePage;

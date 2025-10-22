@@ -27,6 +27,13 @@ function useIsDesktop(breakpoint = 768) {
 export default function App() {
   const isDesktop = useIsDesktop(768);
 
+  //   useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     window.location.reload();
+  //   }, 600000); 
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
   return (
     <Router>
       <ScrollToTop />
