@@ -1,172 +1,95 @@
-import React from 'react';
+
+import * as TablerIcons from "@tabler/icons-react";
 
 export const Icon = ({
-    name,
-    size = 24,
-    stroke = 1.5,
-    color = 'currentColor',
-    className,
-    title,
+  name,
+  size = 24,
+  stroke = 1.5,
+  strokeWidth, 
+  color = "currentColor",
+  className,
+  title,
+  ...rest
 }) => {
-    const icons = {
-        // ------------------- General Icons -------------------
-        plus: (
-            <>
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-            </>
-        ),
-        minus: (
-            <>
-                <path d="M5 12l14 0" />
+  if (!name) {
+    // nothing provided — render help icon
+    const Help = TablerIcons.IconHelpCircle;
+    return <Help size={size} strokeWidth={strokeWidth ?? stroke} color={color} className={className} title={title} {...rest} />;
+  }
 
-            </>
-        ),
-        moodSmile: (
-            <>
-                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                <path d="M9 10l.01 0" />
-                <path d="M15 10l.01 0" />
-                <path d="M9.5 15a3.5 3.5 0 0 0 5 0" />
-            </>
-        ),
+  // canonicalize incoming name: accept "IconBarbell", "barbell", "bar-bell", "bar_bell"
+  const normalize = (s) =>
+    String(s)
+      .trim()
+      .replace(/[-_]+/g, " ")
+      .replace(/\s+/g, " ")
+      .toLowerCase();
 
-        zzz: (
-            <>
-                <path d="M4 12h6l-6 8h6" />
-                <path d="M14 4h6l-6 8h6" />
-            </>
-        ),
+  const toPascal = (s) =>
+    s
+      .split(" ")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join("");
 
-        // ------------------- Weather Icons -------------------
-        sun: (
-            <>
-                <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
-            </>
-        ),
-        cloudBolt: (
-            <>
-                <path d="M13 18.004h-6.343c-2.572 -.004 -4.657 -2.011 -4.657 -4.487c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.396 0 2.6 .831 3.148 2.03" />
-                <path d="M19 16l-2 3h4l-2 3" />
-            </>
-        ),
-        cloudRain: (
-            <>
-                <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7" />
-                <path d="M11 13v2m0 3v2m4 -5v2m0 3v2" />
-            </>
-        ),
-        cloudSnow: (
-            <>
-                <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7" />
-                <path d="M11 15v.01m0 3v.01m0 3v.01m4 -4v.01m0 3v.01" />
-            </>
-        ),
-        cloud: (
-            <>
-                <path d="M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878" />
-            </>
-        ),
-        haze: (
-            <>
-                <path d="M3 12h1" />
-                <path d="M12 3v1" />
-                <path d="M20 12h1" />
-                <path d="M5.6 5.6l.7 .7" />
-                <path d="M18.4 5.6l-.7 .7" />
-                <path d="M8 12a4 4 0 1 1 8 0" />
-                <path d="M3 16h18" />
-                <path d="M3 20h18" />
-            </>
-        ),
-        snowflake: (
-            <>
-                <path d="M10 4l2 1l2 -1" />
-                <path d="M12 2v6.5l3 1.72" />
-                <path d="M17.928 6.268l.134 2.232l1.866 1.232" />
-                <path d="M20.66 7l-5.629 3.25l.01 3.458" />
-                <path d="M19.928 14.268l-1.866 1.232l-.134 2.232" />
-                <path d="M20.66 17l-5.629 -3.25l-2.99 1.738" />
-                <path d="M14 20l-2 -1l-2 1" />
-                <path d="M12 22v-6.5l-3 -1.72" />
-                <path d="M6.072 17.732l-.134 -2.232l-1.866 -1.232" />
-                <path d="M3.34 17l5.629 -3.25l-.01 -3.458" />
-                <path d="M4.072 9.732l1.866 -1.232l.134 -2.232" />
-                <path d="M3.34 7l5.629 3.25l2.99 -1.738" />
-            </>
-        ),
-        storm: (
-            <>
-                <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                <path d="M12 12m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                <path d="M5.369 14.236c-1.839 -3.929 -1.561 -7.616 -.704 -11.236" />
-                <path d="M18.63 9.76c1.837 3.928 1.561 7.615 .703 11.236" />
-            </>
-        ),
-        wind: (
-            <>
-                <path d="M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.24" />
-                <path d="M3 12h15.5a2.5 2.5 0 1 1 -2.34 3.24" />
-                <path d="M4 16h5.5a2.5 2.5 0 1 1 -2.34 3.24" />
-            </>
-        ),
-        sunLow: (
-            <>
-                <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                <path d="M4 12h.01" />
-                <path d="M12 4v.01" />
-                <path d="M20 12h.01" />
-                <path d="M12 20v.01" />
-                <path d="M6.31 6.31l-.01 -.01" />
-                <path d="M17.71 6.31l-.01 -.01" />
-                <path d="M17.7 17.7l.01 .01" />
-                <path d="M6.3 17.7l.01 .01" />
-            </>
-        ),
-        sunWind: (
-            <>
-                <path d="M14.468 10a4 4 0 1 0 -5.466 5.46" />
-                <path d="M2 12h1" />
-                <path d="M11 3v1" />
-                <path d="M11 20v1" />
-                <path d="M4.6 5.6l.7 .7" />
-                <path d="M17.4 5.6l-.7 .7" />
-                <path d="M5.3 17.7l-.7 .7" />
-                <path d="M15 13h5a2 2 0 1 0 0 -4" />
-                <path d="M12 16h5.714l.253 0a2 2 0 0 1 2.033 2a2 2 0 0 1 -2 2h-.286" />
-            </>
-        ),
-        moonStars: (
-            <>
-                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-                <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
-                <path d="M19 11h2m-1 -1v2" />
-            </>
-        ),
-    };
+  // explicit alias map for dataset keys you actually use
+  const aliases = {
+    // workouts
+    gym: "IconBarbell",
+    run: "IconRun",
+    bike: "IconBike",
+    rest: "IconZzz",
+    food: "IconSalad",
+    book: "IconNotebook",
+    laptop: "IconDeviceLaptop",
+    briefcase: "IconBriefcase",
+    project: "IconCode",
+    gamepad: "IconDeviceGamepad2",
 
-    return (
-        <svg
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={color}
-            strokeWidth={stroke}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-            aria-hidden={!title}
-            role={title ? 'img' : undefined}
-        >
-            {title && <title>{title}</title>}
-            {icons[name]}
-        </svg>
-    );
+
+    // weather 
+    sun: "IconSun",
+    cloud: "IconCloud",
+    cloudRain: "IconCloudRain",
+    cloudSnow: "IconCloudSnow",
+    storm: "IconCloudStorm",
+    wind: "IconWind",
+    snowflake: "IconSnowflake",
+    haze: "IconMist",
+    moonStars: "IconMoonStars",
+  };
+
+  const raw = String(name);
+  // 1) if user passed an exact Tabler export name (IconSomething), use it
+  if (/^Icon[A-Z]/.test(raw)) {
+    const TablerComp = TablerIcons[raw];
+    if (TablerComp) {
+      return <TablerComp size={size} strokeWidth={strokeWidth ?? stroke} color={color} className={className} title={title} aria-hidden={!title} role={title ? "img" : undefined} {...rest} />;
+    }
+  }
+
+  // 2) try alias map
+  const key = normalize(raw);
+  const alias = aliases[raw] || aliases[key];
+  if (alias && TablerIcons[alias]) {
+    const Comp = TablerIcons[alias];
+    return <Comp size={size} strokeWidth={strokeWidth ?? stroke} color={color} className={className} title={title} aria-hidden={!title} role={title ? "img" : undefined} {...rest} />;
+  }
+
+  // 3) attempt auto-resolve: "barbell" -> "IconBarbell"
+  const candidate = `Icon${toPascal(key)}`; // e.g. IconBarbell, IconDeviceLaptop
+  if (TablerIcons[candidate]) {
+    const Auto = TablerIcons[candidate];
+    return <Auto size={size} strokeWidth={strokeWidth ?? stroke} color={color} className={className} title={title} aria-hidden={!title} role={title ? "img" : undefined} {...rest} />;
+  }
+
+  // 4) last fallback - help icon and dev warning
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.warn(`[Icon] unknown icon name: "${name}". Tried aliases and auto-resolve -> "${candidate}". Falling back to IconHelpCircle.`);
+  }
+
+  const Help = TablerIcons.IconHelpCircle;
+  return <Help size={size} strokeWidth={strokeWidth ?? stroke} color={color} className={className} title={title} aria-hidden={!title} role={title ? "img" : undefined} {...rest} />;
 };
 
-
-
-
-
+export default Icon;

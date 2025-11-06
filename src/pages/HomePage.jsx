@@ -7,13 +7,6 @@ import TaskCard from "../components/TaskCard";
 import tasksData from "../data/task.js";
 import { getDailyTasksSummary } from "../lib/scheduleHelpers";
 
-/*
-  Simpler rendering logic:
-  - Fetch enrichedTasks for selected date (helper gives startDate/endDate)
-  - Render tasks in chronological order (start time ascending)
-  - Compute isPast per task and pass it to TaskCard for visual dimming
-  - Keep expand/collapse behavior
-*/
 
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -56,11 +49,12 @@ export default function HomePage() {
 
       <section className="schedule-section">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ margin: "16px 0" }}>My Schedule</h2>
+          <h2>My Schedule</h2>
         </div>
 
         <WeekPicker value={normalizedSelectedDate} onChange={(d) => setSelectedDate(d)} showMonthLabel={false} />
       </section>
+
 
       <section className="tasks-section">
         {tasksSorted.length === 0 ? (

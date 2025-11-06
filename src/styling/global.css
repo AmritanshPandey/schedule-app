@@ -1,12 +1,14 @@
 :root {
   /* Primary brand colors */
-  --color-yellow: #FFD97A;
-  --color-green: #9FE3D3;
-  --color-pink: #FFB3B3;
-  --color-blue: #C7F0FF;
-  --color-cream: #FFE6A7;
-  --color-sky: #E8F0FF;
-  --color-peach: #FFF7D6;
+  --color-yellow: #FFE082;
+  --color-green: #AED581;
+  --color-teal: #80CBC4;
+  --color-pink: #FFB0B0;
+  --color-blue: #AEDAFF;
+  --color-peach: #FFCCBC;
+  --color-purple: #A998FF;
+  --color-emerald: #BEE7C6;
+  --color-grey: #CFCFCF;
   --color-black: #111111;
   --color-white: #ffffff;
 
@@ -101,7 +103,6 @@ h1 {
 
 h2 {
   font-size: 1.4rem;
-  margin-bottom: 16px;
 }
 
 h3 {
@@ -188,61 +189,46 @@ button.primary {
 }
 
 /* Category pastel colors (consistent across app) */
-.card.workout {
-  background: var(--color-yellow);
-}
-
-.card.commute {
-  background: var(--color-pink);
-}
-
-.card.work {
-  background: var(--color-green);
-}
-
-.card.food {
-  background: var(--color-blue);
-}
-
-.card.personal {
-  background: var(--color-cream);
-}
-
-.card.learning {
-  background: var(--color-sky);
-}
-
-
 
 .cat-workout {
-  background-color: #FFE082;
+  background-color: var(--color-yellow);
 }
-
-
-
+.cat-run{
+  background-color: var(--color-purple);
+}
+.cat-bike{
+  background-color: var(--color-peach);
+}
 .cat-work {
-  background-color: #BBDEFB;
+  background-color: var(--color-pink);
 }
-
-
 .cat-food {
-  background-color: #BEBBF9;
+  background-color: var(--color-green);
 }
-
-
 .cat-study {
-  background-color: #FFB0B0;
+  background-color: var(--color-teal);
 }
-
-
-.cat-sleep {
-    background-color: #AED581;
+.cat-rest {
+  background-color: var(--color-blue);
 }
-
+.cat-project {
+  background-color: var(--color-emerald);
+}
+.cat-gaming {
+  background-color: var(--color-purple);
+}
 /* Unknown fallback */
 .cat-unknown {
- background-color: #FFCCBC;
+ background-color: var(--color-yellow);
 }
+
+
+
+
+
+
+
+
 
 /* ---------------------- SCROLLBAR (optional clean UI) ---------------------- */
 ::-webkit-scrollbar {

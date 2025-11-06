@@ -1,50 +1,52 @@
-
 export const CATEGORIES = {
   Workout: {
     key: "Workout",
-    icon: "barbell",     
+    icon: "gym",             
     gradientClass: "cat-workout",
-    pillColor: "#FFE6A7",
   },
-  Commute: {
-    key: "Commute",
-    icon: "car",
-    gradientClass: "cat-commute",
-    pillColor: "#FFB3B3",
+  Run: {
+    key: "Run",
+    icon: "run",            
+    gradientClass: "cat-run",
+  },
+  Bike: {
+    key: "Bike",
+    icon: "bike",           
+    gradientClass: "cat-bike",
   },
   Work: {
     key: "Work",
-    icon: "briefcase",
+    icon: "briefcase",      
     gradientClass: "cat-work",
-    pillColor: "#9FE3D3",
   },
   Food: {
     key: "Food",
-    icon: "salad",
+    icon: "food",           
     gradientClass: "cat-food",
-    pillColor: "#C7F0FF",
-  },
-  Personal: {
-    key: "Personal",
-    icon: "moodHeart",
-    gradientClass: "cat-personal",
-    pillColor: "#FFF0C4",
   },
   Study: {
     key: "Study",
-    icon: "luggage",
+    icon: "book",            
     gradientClass: "cat-study",
-    pillColor: "#FFD6EB",
   },
-  Sleep: {
-    key: "Sleep",
-    icon: "zzz",
-    gradientClass: "cat-sleep",
-    pillColor: "#C8F0EA",
+  Rest: {
+    key: "Rest",
+    icon: "rest",            
+    gradientClass: "cat-rest",
+  },
+  Project: {
+    key: "Project",
+    icon: "project",      
+    gradientClass: "cat-project",
+  },
+  Gaming: {
+    key: "Gaming",
+    icon: "gamepad",        
+    gradientClass: "cat-gaming",
   },
   Unknown: {
     key: "Unknown",
-    icon: "cloud",
+    icon: "cloud",         
     gradientClass: "cat-unknown",
     pillColor: "#F0F0F0",
   },
