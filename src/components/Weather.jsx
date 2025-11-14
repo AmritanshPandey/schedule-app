@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import "../styling/weather.css";
 import { Icon } from "./icons";
+import tasksData from "../data/task";
+import { weekdayCodeFromDate } from "../lib/scheduleHelpers";
+import { IconMoodSmile, IconZzz } from "@tabler/icons-react";
 
 // Fixed location coordinates (change to your preferred default)
 const FIXED_COORDS = { lat: 28.4595, lon: 77.0266 };
@@ -47,12 +50,29 @@ function iconNameForCategory(category, isDay) {
 }
 
 /* -------------------- Component -------------------- */
-export default function Weather({ total = 0 }) {
+export default function Weather({ total = 0, selectedDate }) {
   const [weather, setWeather] = useState(null);
   const [daily, setDaily] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
+
+
+  // find routine for selected date
+  const weekdayCode = weekdayCodeFromDate(selectedDate);
+  const todayEntry = tasksData.schedule.find((d) => d.weekday === weekdayCode) || {};
+  const wakeupTime = todayEntry?.routine?.wakeup || "--:--";
+  const sleepTime = todayEntry?.routine?.sleep || "--:--";
+
+  const formatTime = (hhmm) => {
+    if (!hhmm || hhmm === "--:--") return "--:--";
+    const [hStr, mStr] = hhmm.split(":");
+    const h = Number(hStr);
+    const m = Number(mStr || 0);
+    const ampm = h >= 12 ? "PM" : "AM";
+    const hour12 = ((h + 11) % 12) + 1;
+    return `${hour12}:${String(m).padStart(2, "0")} ${ampm}`;
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -148,16 +168,16 @@ export default function Weather({ total = 0 }) {
               <div className="routine-container-main">
                 <div className="routine-container">
                   <div className="routine-icon" aria-hidden>
-                    <Icon name="moodSmile" size={32} stroke={1.5} />
+                    <IconMoodSmile stroke={1.5} />
                   </div>
-                  <span>5:00 AM</span>
+                  <span>{formatTime(wakeupTime)}</span>
                 </div>
 
                 <div className="routine-container">
                   <div className="routine-icon" aria-hidden>
-                    <Icon name="zzz" size={32} stroke={1.5} />
+                    <IconZzz stroke={1.5} />
                   </div>
-                  <span>9:00 PM</span>
+                  <span>{formatTime(sleepTime)}</span>
                 </div>
               </div>
 

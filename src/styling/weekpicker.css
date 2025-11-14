@@ -30,7 +30,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(4px, 1vw, 8px);
+  gap: clamp(8px, 1vw, 8px);
   border-radius: 14px;
   background: transparent;
   cursor: pointer;
@@ -42,15 +42,15 @@
 
 /* Day label */
 .weekday {
-  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: #6b7280;
   letter-spacing: 0.02em;
 }
 
 /* Date badge */
 .date-circle {
-  width: clamp(34px, 8vw, 46px);
-  height: clamp(34px, 8vw, 46px);
+  width: clamp(40px, 8vw, 46px);
+  height: clamp(40px, 8vw, 46px);
   border-radius: 999px;
   background: #fff;
   display: grid;
@@ -68,7 +68,7 @@
 
 /* Selected state */
 .weekpicker-day.selected {
-  background-color: #CCEDFF;
+
 }
 
 .weekpicker-day.selected .weekday {
@@ -103,7 +103,6 @@
 /* Accessibility: focus outline */
 .weekpicker-day:focus {
   border-radius: 14px;
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
 }
 
 /* Small phones */
@@ -112,11 +111,11 @@
     gap: 2px;
   }
   .date-circle {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
   }
   .weekday {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
   }
   .date-number {
     font-size: 0.8rem;

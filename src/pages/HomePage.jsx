@@ -8,6 +8,7 @@ import tasksData from "../data/task.js";
 import { getDailyTasksSummary } from "../lib/scheduleHelpers";
 
 
+
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [expandedId, setExpandedId] = useState(null);
@@ -44,7 +45,7 @@ export default function HomePage() {
   return (
     <main className="home-container">
       <section className="weather-section">
-        <Weather total={total} />
+        <Weather selectedDate={normalizedSelectedDate} total={total} />
       </section>
 
       <section className="schedule-section">
@@ -85,7 +86,7 @@ export default function HomePage() {
           })
         )}
       </section>
-   
+
     </main>
   );
 }

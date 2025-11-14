@@ -85,9 +85,9 @@
 
 /* ---------- Expand button visual styling ---------- */
 .task-expand {
-  background: transparent;
+  background: white;
   border: none;
-  padding: 0;
+  padding: 16px;
   border-radius: 999px;
   display: inline-grid;
   place-items: center;
@@ -100,15 +100,13 @@
   height: 40px;
   padding: 6px;
   border-radius: 9999px;
-  background: #ffffff;      /* white pill background */
-  color: #000000;           /* icon color */
+  background: #ffffff;      
+  color: #000000;           
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 18px rgba(10, 12, 20, 0.12);
-  transition: transform var(--fade-duration) var(--easing),
-              box-shadow var(--fade-duration) var(--easing);
-  will-change: transform, box-shadow;
+  transition: transform var(--fade-duration) var(--easing);
+  will-change: transform;
 }
 
 .task-expand.animated:hover {
@@ -201,7 +199,6 @@
   margin-top: 16px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 24px;
-  padding: 8px;
   overflow: hidden;
   max-height: 0;
   opacity: 0;
@@ -215,7 +212,7 @@
 .task-card.expanded .task-body,
 .task-card.open .task-body,
 .task-body.open {
-  max-height: 900px;
+  max-height: 100%;
   opacity: 1;
   transform: translateY(0);
 }
@@ -224,7 +221,7 @@
 .subtasks {
   list-style: none;
   padding: 0;
-  margin: 8px 0 0 0;
+  margin: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
