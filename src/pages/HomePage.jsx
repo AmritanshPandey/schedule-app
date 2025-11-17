@@ -5,6 +5,7 @@ import WeekPicker from "../components/WeekPicker";
 import "../styling/home.css";
 import TaskCard from "../components/TaskCard";
 import tasksData from "../data/task.js";
+import WeatherTest from '../components/WeatherTest.jsx'
 import { getDailyTasksSummary } from "../lib/scheduleHelpers";
 
 
@@ -86,6 +87,10 @@ export default function HomePage() {
           })
         )}
       </section>
+
+      {/* <section>
+        <WeatherTest/>
+      </section> */}
 
     </main>
   );

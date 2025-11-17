@@ -62,6 +62,30 @@ body.dark,
   -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* hide accidental horizontal scroll */
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+/* Make sure all images & svgs don't overflow */
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Avoid using 100vw where scrollbar exists — prefer 100% */
+.full-viewport {
+  width: 100%; /* not 100vw */
+  max-width: 100%;
+}
+
+input, textarea, select, button {
+  font-size: 16px !important;
+}
+
 html,
 body {
   margin: 0;

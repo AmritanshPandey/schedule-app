@@ -7,7 +7,7 @@ const meta = {
 };
 
 const WEEKDAY_ROUTINE = { wakeup: "05:00", sleep: "21:00" }; // Mon-Fri
-const SAT_ROUTINE = { wakeup: "07:30", sleep: "22:00" };     // Sat
+const SAT_ROUTINE = { wakeup: "07:00", sleep: "22:00" };     // Sat
 const SUN_ROUTINE = { wakeup: "08:00", sleep: "21:00" };     // Sun
 
 
@@ -20,7 +20,8 @@ const gymFull = {
   summary: "Cardio session & Strength training",
   subtasks: [
     { title: "Commute", display: "15 min" },
-    { title: "Running", display: "1.5km • 15 min" },
+    { title: "Cycling", display: "10 min" },
+    { title: "Running", display: "5 min" },
     { title: "Stretching", display: "10 Exercises • 15 min" },
     { title: "Rope Jumps", display: "5 X 60 • 10 min" },
     { title: "Chest Press", display: "3x10 • 5 min" },
@@ -37,14 +38,6 @@ const gymFull = {
   ],
 };
 
-const cycle = {
-  id: "cycle",
-  title: "Cycling",
-  start: "4:30",
-  end: "5:45",
-  category: "Bike",
-  summary: "Morning cycling workout",
-};
 
 const commuteStudy = {
   id: "commute-study",
@@ -141,7 +134,7 @@ const sasleep = {
 const dsa = {
   id: "dsa",
   title: "DS & Algo",
-  start: "06:00",
+  start: "05:00",
   end: "09:30",
   category: "Study",
   summary: "Morning study block for DS & Algo",
@@ -200,8 +193,8 @@ const gymBack = {
 const gymArm = {
   id: "gym-arm",
   title: "Gym - Arms",
-  start: "11:30",
-  end: "13:45",
+  start: "10:30",
+  end: "12:45",
   category: "Workout",
   summary: "Arms workout session",
   subtasks: [
@@ -233,8 +226,8 @@ const lunchShort = {
 const gmat = {
   id: "gmat",
   title: "GMAT",
-  start: "08:00",
-  end: "11:00",
+  start: "07:00",
+  end: "10:00",
   category: "Study",
   summary: "Studying for GMAT",
 };
@@ -267,8 +260,8 @@ const projectWork = {
 const gymLegs = {
   id: "gym-legs",
   title: "Gym - Legs",
-  start: "6:30",
-  end: "8:00",
+  start: " 12:30",
+  end: "14:00",
   category: "Workout",
   summary: "Legs workout session",
   subtasks: [
@@ -295,8 +288,8 @@ const gaming = {
 const personalProjects = {
   id: "personal-projects",
   title: "Personal Projects",
-  start: "11:00",
-  end: "14:00",
+  start: "15:00",
+  end: "17:00",
   category: "Study",
   summary: "Side-project / portfolio work",
 };
@@ -331,7 +324,6 @@ const schedule = [
     weekday: wd,
     routine: WEEKDAY_ROUTINE,
     tasks: [
-      Object.assign({ id: `t-${wd.toLowerCase()}-02` }, clone(cycle)),
       Object.assign({ id: `t-${wd.toLowerCase()}-02` }, clone(dsa)),
       Object.assign({ id: `t-${wd.toLowerCase()}-03` }, clone(breakfast)),
       Object.assign({ id: `t-${wd.toLowerCase()}-04` }, clone(gymChest)),
@@ -347,7 +339,6 @@ const schedule = [
     weekday: wd,
     routine: WEEKDAY_ROUTINE,
     tasks: [
-      Object.assign({ id: `t-${wd.toLowerCase()}-02` }, clone(cycle)),
       Object.assign({ id: `t-${wd.toLowerCase()}-02` }, clone(dsa)),
       Object.assign({ id: `t-${wd.toLowerCase()}-03` }, clone(breakfast)),
       Object.assign({ id: `t-${wd.toLowerCase()}-04` }, clone(gymBack)),
@@ -375,7 +366,7 @@ const schedule = [
   // SAT
   {
     weekday: "SA",
-    routine: SAT_ROUTINE, 
+    routine: SAT_ROUTINE,
     tasks: [
       Object.assign({ id: "t-sa-01" }, clone(gmat)),
       Object.assign({ id: "t-sa-02" }, clone(gymArm)),

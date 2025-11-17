@@ -1,233 +1,184 @@
-// src/components/Weather.jsx
-import { useEffect, useState, useRef } from "react";
+// src/components/WeatherTest.jsx
+import React, { useMemo, useState } from "react";
 import "../styling/weather.css";
 import { Icon } from "./icons";
-import tasksData from "../data/task";
-import { weekdayCodeFromDate } from "../lib/scheduleHelpers";
+import WEATHER_CODE_MAP from "../data/weather";
 
-// Fixed location coordinates (change to your preferred default)
-const FIXED_COORDS = { lat: 28.4595, lon: 77.0266 };
-
-// refresh interval (ms) - 10 minutes
-const REFRESH_INTERVAL_MS = 10 * 60 * 1000;
-
-/* -------------------- Helpers -------------------- */
-const buildOpenMeteoURL = (latitude, longitude) => {
-  const base = "https://api.open-meteo.com/v1/forecast";
-  const params = new URLSearchParams({
-    latitude: String(latitude),
-    longitude: String(longitude),
-    current_weather: "true",
-    daily: "temperature_2m_max,temperature_2m_min,sunrise,sunset",
-    timezone: "auto",
-  });
-  return `${base}?${params.toString()}`;
-};
-
-function codeToCategory(code) {
-  if (code === 0 || code === 1) return "clear";
-  if (code === 2) return "partly-cloudy";
-  if (code === 3) return "overcast";
-  if ([45, 48].includes(code)) return "fog";
-  if (code >= 51 && code <= 67) return "drizzle";
-  if (code >= 61 && code <= 86) return "rain";
-  if (code >= 71 && code <= 77) return "snow";
-  if (code >= 95) return "thunder";
-  return "unknown";
+/* --- Helpers copied / aligned with Weather.jsx --- */
+function getEntry(code) {
+  return WEATHER_CODE_MAP?.[Number(code)] || null;
 }
 
-function iconNameForCategory(category, isDay) {
-  const map = {
-    clear: isDay ? "sun" : "moonStars",
-    "partly-cloudy": isDay ? "sunLow" : "moonStars",
-    overcast: "cloud",
-    fog: "haze",
-    drizzle: "cloudRain",
-    rain: "cloudRain",
-    snow: "cloudSnow",
-    thunder: "cloudBolt",
-    unknown: "cloud",
-  };
-  return map[category] || "cloud";
+function normalizeIconKey(maybeString) {
+  if (!maybeString || typeof maybeString !== "string") return null;
+  if (maybeString.startsWith("Icon")) {
+    const stripped = maybeString.slice(4); // remove "Icon"
+    return stripped.charAt(0).toLowerCase() + stripped.slice(1); // CloudRain -> cloudRain
+  }
+  return maybeString;
 }
 
-const formatTime = (hhmm) => {
-  if (!hhmm || hhmm === "--:--") return "--:--";
-  const parts = hhmm.split(":").map((p) => p.trim());
-  if (parts.length === 0) return "--:--";
-  const h = Number(parts[0]);
-  const m = parts[1] ? Number(parts[1]) : 0;
-  if (!Number.isFinite(h) || !Number.isFinite(m)) return hhmm;
-  const ampm = h >= 12 ? "PM" : "AM";
-  const hour12 = ((h + 11) % 12) + 1;
-  return `${hour12}:${String(m).padStart(2, "0")} ${ampm}`;
-};
+function resolveIconKeyFromMap(code, isDay) {
+  const entry = getEntry(code);
+  if (!entry) return isDay ? "sun" : "moonStars";
+  const raw = isDay ? (entry.iconDay ?? entry.icon) : (entry.iconNight ?? entry.icon);
+  if (typeof raw === "string") {
+    return normalizeIconKey(raw) || (isDay ? "sun" : "moonStars");
+  }
+  // not a string (component) — return null so RenderIcon falls back to safe option
+  return raw;
+}
 
-/* -------------------- Component -------------------- */
-/*
- Props:
-  - total: Number (task count for the day, optional)
-  - selectedDate: Date (the date selected in WeekPicker, defaults to today)
-*/
-export default function Weather({ total = 0, selectedDate = new Date() }) {
-  const [weather, setWeather] = useState(null);
-  const [daily, setDaily] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null);
+function getLabel(code) {
+  return getEntry(code)?.label || "Unknown";
+}
 
-  // store controller and interval refs so we can clean up
-  const controllerRef = useRef(null);
-  const intervalRef = useRef(null);
+function getCategory(code) {
+  return getEntry(code)?.category || "unknown";
+}
 
-  // fetcher extracted so we can call it on mount and on interval
-  const fetchWeather = async () => {
-    // abort previous controller if any
-    if (controllerRef.current) {
-      try {
-        controllerRef.current.abort();
-      } catch (e) {}
-    }
-    const controller = new AbortController();
-    controllerRef.current = controller;
+/* small render helper — handles string key OR React component */
+function RenderIcon({ spec, isDay, size = 40, stroke = 1.6 }) {
+  if (!spec) return <Icon name={isDay ? "sun" : "moonStars"} size={size} stroke={stroke} />;
+  if (typeof spec === "string") return <Icon name={spec} size={size} stroke={stroke} />;
+  // assume spec is a React component (rare in current map)
+  try {
+    return React.createElement(spec, { width: size, height: size, stroke, "aria-hidden": true });
+  } catch (e) {
+    return <Icon name="cloud" size={size} stroke={stroke} />;
+  }
+}
 
-    setLoading(true);
-    setError(null);
-    try {
-      const url = buildOpenMeteoURL(FIXED_COORDS.lat, FIXED_COORDS.lon);
-      const res = await fetch(url, { signal: controller.signal });
-      if (!res.ok) throw new Error(`Weather API error ${res.status}`);
-      const json = await res.json();
-      setWeather(json.current_weather || null);
-      setDaily(json.daily || null);
-      setLastUpdated(new Date().toISOString());
-    } catch (err) {
-      if (err.name !== "AbortError") {
-        console.warn("Weather fetch failed:", err);
-        setError(err.message || "Failed to load weather");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+/* Representative set of test weather codes (Open-Meteo style) */
+const TEST_CODES = [
+  0, 1, 2, 3, 51, 53, 55, 61, 63, 65, 71, 73, 75, 95
+];
 
-  useEffect(() => {
-    // initial fetch
-    fetchWeather();
+export default function WeatherTest() {
+  const [isDay, setIsDay] = useState(true);
+  const [largeCode, setLargeCode] = useState(TEST_CODES[0]);
 
-    // set up interval to refresh every REFRESH_INTERVAL_MS
-    intervalRef.current = setInterval(() => {
-      fetchWeather();
-    }, REFRESH_INTERVAL_MS);
-
-    return () => {
-      // cleanup interval & controller on unmount
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (controllerRef.current) {
-        try {
-          controllerRef.current.abort();
-        } catch (e) {}
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount
-
-  // Helpers
-  const isDay = () => {
-    if (!daily || !weather || !daily.time) return true;
-    // find today's index in daily.time array using weather.time or selectedDate
-    const todayDate =
-      (weather && weather.time ? weather.time.split("T")[0] : null) ||
-      selectedDate.toISOString().slice(0, 10);
-    const idx = daily.time ? daily.time.indexOf(todayDate) : -1;
-    if (idx === -1) return true;
-    const now = weather && weather.time ? new Date(weather.time) : new Date();
-    const sunrise = new Date(daily.sunrise[idx]);
-    const sunset = new Date(daily.sunset[idx]);
-    return now >= sunrise && now < sunset;
-  };
-
-  // Look up routine (wakeup/sleep) from tasksData for the selectedDate's weekday
-  const weekdayCode = weekdayCodeFromDate(selectedDate);
-  const todayEntry = tasksData?.schedule?.find((d) => d.weekday === weekdayCode) || {};
-  // allow tasksData entries to include a `routine` object like { wakeup: "05:00", sleep: "21:30" }
-  const wakeupTime = todayEntry?.routine?.wakeup || todayEntry?.wakeup || "--:--";
-  const sleepTime = todayEntry?.routine?.sleep || todayEntry?.sleep || "--:--";
-
-  const currentTemp = weather ? Math.round(weather.temperature) : "--";
-  const code = weather ? weather.weathercode : null;
-  const category = code != null ? codeToCategory(code) : "unknown";
-  const dayFlag = isDay();
-  const iconKey = iconNameForCategory(category, dayFlag);
-  const statusLabel = code != null ? category.replace("-", " ") : "";
-
-  const high = daily?.temperature_2m_max?.[0] ? Math.round(daily.temperature_2m_max[0]) : "--";
-  const low = daily?.temperature_2m_min?.[0] ? Math.round(daily.temperature_2m_min[0]) : "--";
+  const grid = useMemo(() => {
+    return TEST_CODES.map((code) => {
+      const category = getCategory(code);
+      const label = getLabel(code);
+      return { code, category, label };
+    });
+  }, []);
 
   return (
-    <main>
-      <section className="weather-container">
-        <div className="left">
-          <article className={`weather-card ${category} ${dayFlag ? "day" : "night"}`}>
-            <div className="weather-card-left">
-              <div>
-                <div className="weather-row">
-                  <div className="weather-main">
-                    <div className="weather-icon" aria-hidden>
-                      <Icon name={iconKey} size={28} stroke={1.6} />
+    <div style={{ padding: 18 }}>
+      <h2 style={{ marginTop: 0 }}>Weather previews — icons & backgrounds</h2>
+
+      <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input
+            type="checkbox"
+            checked={isDay}
+            onChange={() => setIsDay((v) => !v)}
+            aria-label="Toggle day mode"
+          />
+          Day mode
+        </label>
+
+        <label htmlFor="large-preview-select" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span>Large preview:</span>
+          <select
+            id="large-preview-select"
+            aria-label="Select weather code for large preview"
+            value={largeCode}
+            onChange={(e) => setLargeCode(Number(e.target.value))}
+            style={{ marginLeft: 8 }}
+          >
+            {TEST_CODES.map((c) => (
+              <option key={c} value={c}>
+                {c} — {getLabel(c)}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <button
+          onClick={() => {
+            const idx = TEST_CODES.findIndex((c) => c === largeCode);
+            setLargeCode(TEST_CODES[(idx + 1) % TEST_CODES.length]);
+          }}
+        >
+          Cycle
+        </button>
+      </div>
+
+      {/* Large preview */}
+      <div style={{ marginBottom: 18 }}>
+        {(() => {
+          const code = largeCode;
+          const cat = getCategory(code);
+          const label = getLabel(code);
+          const iconKey = resolveIconKeyFromMap(code, isDay);
+
+          return (
+            <article
+              className={`weather-card ${cat} ${isDay ? "day" : "night"}`}
+              style={{ width: 420 }}
+              aria-live="polite"
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div style={{ flex: "0 0 72px" }}>
+                  <RenderIcon spec={iconKey} isDay={isDay} size={72} stroke={1.8} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "inherit" }}>{label}</div>
+                  <div style={{ marginTop: 6, color: "var(--muted)" }}>
+                    category: <strong>{cat}</strong> — class:{" "}
+                    <code>{`weather-card ${cat} ${isDay ? "day" : "night"}`}</code>
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: 12, color: "var(--muted)" }}>H: 23°C &nbsp; L: 15°C</div>
+            </article>
+          );
+        })()}
+      </div>
+
+      <hr style={{ margin: "18px 0" }} />
+
+      {/* Grid of small cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+        {grid.map((g) => {
+          const iconDay = resolveIconKeyFromMap(g.code, true);
+          const iconNight = resolveIconKeyFromMap(g.code, false);
+          return (
+            <div key={g.code} style={{ borderRadius: 12, overflow: "hidden" }}>
+              <div style={{ display: "flex", gap: 8 }}>
+                <article className={`weather-card ${g.category} day`} style={{ flex: 1, padding: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <RenderIcon spec={iconDay} isDay={true} size={40} stroke={1.6} />
+                    <div>
+                      <div style={{ fontWeight: 700 }}>{g.label}</div>
+                      <div style={{ color: "var(--muted)" }}>{g.category} • day</div>
                     </div>
+                  </div>
+                </article>
 
-                    <div className="temp">
-                      <div className="temp-value">{currentTemp}°C</div>
-                      <div className="status">{statusLabel}</div>
+                <article className={`weather-card ${g.category} night`} style={{ flex: 1, padding: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <RenderIcon spec={iconNight} isDay={false} size={40} stroke={1.6} />
+                    <div>
+                      <div style={{ fontWeight: 700, color: "var(--text-light)" }}>{g.label}</div>
+                      <div style={{ color: "var(--muted-night)" }}>{g.category} • night</div>
                     </div>
                   </div>
-                </div>
-
-                <div className="weather-details">
-                  <span className="weather-text">H: {high}°C &nbsp; L: {low}°C</span>
-                </div>
-              </div>
-
-              <span className="update-time">
-                Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}
-              </span>
-
-              {loading && <div className="weather-loading">Loading…</div>}
-              {error && <div className="weather-error">Error: {error}</div>}
-            </div>
-          </article>
-        </div>
-
-        <div className="right">
-          <article className="routine-card">
-            <div className="weather-card-right">
-              <div className="routine-container-main">
-                <div className="routine-container">
-                  <div className="routine-icon" aria-hidden>
-                    <Icon name="moodSmile" size={28} stroke={1.5} />
-                  </div>
-                  <span>{formatTime(wakeupTime)}</span>
-                </div>
-
-                <div className="routine-container">
-                  <div className="routine-icon" aria-hidden>
-                    <Icon name="zzz" size={28} stroke={1.5} />
-                  </div>
-                  <span>{formatTime(sleepTime)}</span>
-                </div>
-              </div>
-
-              <div className="tasks-container">
-                <span className="task-title">Tasks</span>
-                <div className="task-number">
-                  <span>{String(total).padStart(2, "0")}</span>
-                </div>
+                </article>
               </div>
             </div>
-          </article>
-        </div>
-      </section>
-    </main>
+          );
+        })}
+      </div>
+
+      <p style={{ marginTop: 16, color: "var(--muted)", fontSize: 13 }}>
+        Tip: this preview now uses the same mapping as <code>Weather.jsx</code>. If an icon or gradient still looks
+        off, update <code>src/data/weather.js</code> (iconDay/iconNight/gradient).
+      </p>
+    </div>
   );
 }
