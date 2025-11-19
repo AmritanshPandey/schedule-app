@@ -44,6 +44,8 @@ export const Icon = ({
     briefcase: "IconBriefcase",
     project: "IconCode",
     gamepad: "IconDeviceGamepad2",
+    movie: "IconMovie",
+    design: "IconEdit",
 
 
     // weather 

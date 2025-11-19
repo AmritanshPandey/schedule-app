@@ -44,10 +44,19 @@ export const CATEGORIES = {
     icon: "gamepad",        
     gradientClass: "cat-gaming",
   },
+  Movie : {
+    key: "Movie",
+    icon: "movie",        
+    gradientClass: "cat-movie",
+  },
+  Design : {
+    key: "Design",
+    icon: "design",        
+    gradientClass: "cat-design",
+  },
   Unknown: {
     key: "Unknown",
     icon: "cloud",         
     gradientClass: "cat-unknown",
-    pillColor: "#F0F0F0",
   },
 };

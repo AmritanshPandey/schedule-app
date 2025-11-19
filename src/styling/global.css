@@ -8,6 +8,7 @@
   --color-peach: #FFCCBC;
   --color-purple: #A998FF;
   --color-emerald: #BEE7C6;
+  --color-orange: #FFBA66;
   --color-grey: #CFCFCF;
   --color-black: #111111;
   --color-white: #ffffff;
@@ -62,15 +63,18 @@ body.dark,
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
   max-width: 100%;
-  overflow-x: hidden; /* hide accidental horizontal scroll */
+  overflow-x: hidden;
+  /* hide accidental horizontal scroll */
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
 }
 
 /* Make sure all images & svgs don't overflow */
-img, svg {
+img,
+svg {
   max-width: 100%;
   height: auto;
   display: block;
@@ -78,11 +82,15 @@ img, svg {
 
 /* Avoid using 100vw where scrollbar exists — prefer 100% */
 .full-viewport {
-  width: 100%; /* not 100vw */
+  width: 100%;
+  /* not 100vw */
   max-width: 100%;
 }
 
-input, textarea, select, button {
+input,
+textarea,
+select,
+button {
   font-size: 16px !important;
 }
 
@@ -217,33 +225,42 @@ button.primary {
 .cat-workout {
   background-color: var(--color-yellow);
 }
-.cat-run{
-  background-color: var(--color-purple);
-}
-.cat-bike{
-  background-color: var(--color-peach);
-}
+
 .cat-work {
   background-color: var(--color-pink);
 }
+
 .cat-food {
   background-color: var(--color-green);
 }
+
 .cat-study {
   background-color: var(--color-teal);
 }
+
 .cat-rest {
   background-color: var(--color-blue);
 }
+
 .cat-project {
   background-color: var(--color-emerald);
 }
+
 .cat-gaming {
   background-color: var(--color-purple);
 }
+
+.cat-movie {
+  background-color: var(--color-orange);
+}
+
+.cat-design {
+  background-color: var(--color-peach);
+}
+
 /* Unknown fallback */
 .cat-unknown {
- background-color: var(--color-yellow);
+  background-color: var(--color-yellow);
 }
 
 
