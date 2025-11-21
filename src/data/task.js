@@ -88,7 +88,7 @@ const gymBack = {
     /*Back & Shoulder training: 25 minutes*/
     { title: "Reverse Pec Fly", display: "3x10 • 5 min" },
     { title: "Lat Pulldown", display: "3x10 • 5 min" },
-    { title: "Seated Rowing Machine", display: "3x10 • 5 min" },
+    { title: "Seated Rowing", display: "3x10 • 5 min" },
     { title: "Shoulder Press", display: "3x10 • 5 min" },
     { title: "Upright Barbell Row", display: "3x10 • 5 min" },
     /*Cool down: 60 minutes*/
@@ -201,8 +201,6 @@ const gmatsun = {
   category: "Study",
   summary: "Studying for GMAT",
 };
-
-
 
 
 

@@ -1,6 +1,6 @@
 :root {
-  --expand-duration: 320ms;
-  --fade-duration: 180ms;
+  --expand-duration: 360ms;
+  --fade-duration: 220ms;
   --easing: cubic-bezier(.2, .9, .3, 1);
 }
 
@@ -83,7 +83,7 @@
   padding-left: 8px;
 }
 
-/* ---------- Expand button visual styling ---------- */
+/* Expand button visual styling */
 .task-expand {
   background: white;
   border: none;
@@ -93,6 +93,7 @@
   place-items: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .task-expand.animated {
@@ -125,7 +126,7 @@
   display: block;
 }
 
-/* ---------- Morphing plus/minus icons ---------- */
+/* Morphing plus/minus icons (if used) */
 .icon-stack {
   display: inline-block;
   position: relative;
@@ -149,7 +150,6 @@
   pointer-events: none;
 }
 
-/* initial state: plus visible */
 .task-expand.animated .stack-icon.plus {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -162,7 +162,6 @@
   pointer-events: none;
 }
 
-/* expanded state: plus shrinks/rotates away, minus grows in */
 .task-expand.animated.is-expanded .stack-icon.plus {
   opacity: 0;
   transform: scaleY(0.12) rotate(90deg) translateY(-4px);
@@ -194,27 +193,29 @@
   font-weight: 600;
 }
 
-/* body / details */
+/* -------------------- JS-driven body (no max-height hack) -------------------- */
 .task-body {
   margin-top: 16px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255,255,255,0.95);
   border-radius: 24px;
+  display: none;               /* JS toggles display */
+  height: 0;
   overflow: hidden;
-  max-height: 0;
   opacity: 0;
-  transform: translateY(-6px);
-  transition: max-height var(--expand-duration) var(--easing),
-              opacity calc(var(--expand-duration)/1.6) var(--easing),
-              transform calc(var(--expand-duration)/1.8) var(--easing);
+  transform: translateY(-6px) scaleY(.98);
+  transform-origin: top center;
+  transition:
+    height var(--expand-duration) var(--easing),
+    opacity calc(var(--expand-duration) / 1.5) var(--easing),
+    transform var(--expand-duration) var(--easing);
+  will-change: height, opacity, transform;
 }
 
-/* open state */
-.task-card.expanded .task-body,
-.task-card.open .task-body,
+/* CSS fallback class if you want to toggle purely with CSS */
 .task-body.open {
-  max-height: 100%;
+  display: block;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scaleY(1);
 }
 
 /* subtasks */
@@ -235,7 +236,7 @@
   border-radius: 12px;
   transform: translateY(-6px);
   opacity: 0;
-  transition: transform 260ms var(--easing), opacity 200ms ease;
+  transition: transform 300ms var(--easing), opacity 260ms var(--easing);
 }
 
 .task-card.expanded .task-body .subtask {
@@ -306,7 +307,8 @@
 
   .task-body,
   .task-body-wrapper {
-    max-height: none;
+    display: block;
+    height: auto;
     opacity: 1;
   }
 }
