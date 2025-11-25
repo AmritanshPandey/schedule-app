@@ -66,8 +66,7 @@ export default function TaskCard({
 
   // keep a ref to the body so we can measure and animate height
   const bodyRef = useRef(null);
-  // touch guard to prevent touch->click double toggle
-  const touchedRef = useRef(false);
+  const cardRef = useRef(null);
 
   // When `expanded` changes, animate height:
   useEffect(() => {
@@ -84,10 +83,18 @@ export default function TaskCard({
       // eslint-disable-next-line no-unused-expressions
       el.offsetHeight;
       const sh = el.scrollHeight;
-      el.style.transition = `height var(--expand-duration) var(--easing), opacity calc(var(--expand-duration)/1.6) var(--easing), transform var(--expand-duration) var(--easing)`;
+      el.style.transition = `height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease-in-out, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
       el.style.height = `${sh}px`;
       el.style.opacity = "1";
       el.style.transform = "translateY(0) scaleY(1)";
+
+      // Scroll card into view
+      setTimeout(() => {
+        if (cardRef.current) {
+          cardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+
       // after transition, set height to auto so it grows naturally if content changes
       const onTransitionEnd = (ev) => {
         if (ev.propertyName === "height") {
@@ -103,7 +110,7 @@ export default function TaskCard({
       // force reflow
       // eslint-disable-next-line no-unused-expressions
       el.offsetHeight;
-      el.style.transition = `height var(--expand-duration) var(--easing), opacity calc(var(--expand-duration)/1.6) var(--easing), transform var(--expand-duration) var(--easing)`;
+      el.style.transition = `height 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease-in-out, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)`;
       el.style.height = "0px";
       el.style.opacity = "0";
       el.style.transform = "translateY(-6px) scaleY(.98)";
@@ -120,46 +127,23 @@ export default function TaskCard({
   }, [expanded, hasSubtasks]);
 
   // Article handlers (click and touch)
-  const handleArticleClick = (e) => {
-    if (touchedRef.current) {
-      touchedRef.current = false;
-      return;
-    }
-    if (hasSubtasks && onExpand) onExpand(id);
-  };
-
-  const handleArticleTouchEnd = (e) => {
-    touchedRef.current = true;
-    if (hasSubtasks && onExpand) onExpand(id);
-    // reset after short delay so subsequent click is ignored
-    setTimeout(() => (touchedRef.current = false), 350);
-  };
+  // We only want to toggle if the user taps the BUTTON, not the body or header
 
   const handleButtonClick = (e) => {
     e.stopPropagation();
-    if (touchedRef.current) {
-      touchedRef.current = false;
-      return;
-    }
     if (onExpand) onExpand(id);
-  };
-
-  const handleButtonTouchEnd = (e) => {
-    e.stopPropagation();
-    touchedRef.current = true;
-    if (onExpand) onExpand(id);
-    setTimeout(() => (touchedRef.current = false), 350);
   };
 
   return (
     <article
+      ref={cardRef}
       className={`task-card ${cat.gradientClass} ${expanded ? "expanded" : "compact"} ${isPast ? "past" : ""}`}
       aria-labelledby={`task-${id}-title`}
-      onClick={handleArticleClick}
-      onTouchEnd={handleArticleTouchEnd}
       style={isPast ? { opacity: 0.55, filter: "grayscale(18%)" } : undefined}
     >
-      <div className="task-card-head">
+      <div
+        className="task-card-head"
+      >
         <div className="task-card-head-content">
           <div className="task-left">
             <div className="task-icon" aria-hidden={true}>
@@ -188,7 +172,6 @@ export default function TaskCard({
               aria-label={expanded ? "Collapse details" : "Expand details"}
               aria-expanded={expanded}
               onClick={handleButtonClick}
-              onTouchEnd={handleButtonTouchEnd}
             >
               <Icon name={expanded ? "minus" : "plus"} size={24} stroke={1.5} />
             </button>
