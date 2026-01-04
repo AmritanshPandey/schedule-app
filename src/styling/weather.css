@@ -40,8 +40,8 @@
 
 .right {
   flex: 4;
-  max-height: 140px;
-  min-height: 140px;
+  max-height: 150px;
+  min-height: 150px;
 }
 
 /* ----------------------------
@@ -58,8 +58,8 @@
   user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  max-height: 140px;
-  min-height: 140px;
+  max-height: 150px;
+  min-height: 150px;
 }
 
 
@@ -232,6 +232,7 @@
   backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
   padding: var(--card-padding);
+  height: 150px;
   transition: box-shadow var(--transition-fast) ease, transform var(--transition-fast) ease, background var(--transition-slow) ease;
 }
 
