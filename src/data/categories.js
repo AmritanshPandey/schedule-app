@@ -4,8 +4,8 @@ export const CATEGORIES = {
     icon: "gym",             
     gradientClass: "cat-workout",
   },
-  Run: {
-    key: "Run",
+  Cardio: {
+    key: "Cardio",
     icon: "run",            
     gradientClass: "cat-run",
   },

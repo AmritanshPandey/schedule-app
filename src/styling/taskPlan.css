@@ -1,0 +1,67 @@
+.task-plan {
+    padding: 20px 18px 60px;
+    background: #fff;
+    color: #000;
+    min-height: 100vh;
+}
+
+.task-plan-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #000;
+}
+
+.task-plan-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #000;
+}
+
+
+
+.pill.highlight {
+    display: inline-block;
+    color: #000;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 16px 0;
+}
+
+.plan-section {
+    margin-bottom: 16px;
+}
+
+.plan-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+}
+
+.plan-section ul {
+    list-style: disc;
+    padding-left: 18px;
+    margin: 0;
+}
+
+.plan-section li {
+    font-size: 16px;
+    line-height: 28px;
+    color: #202020;
+}
+
+
+.plan-steps {
+    list-style: disc;
+    padding-left: 18px;
+    margin-top: 20px;
+}
+
+.plan-steps li {
+    font-size: 16px;
+    line-height: 28px;
+    color: #d6d6d6;
+}

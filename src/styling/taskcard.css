@@ -1,41 +1,18 @@
-:root {
-  --expand-duration: 360ms;
-  --fade-duration: 220ms;
-  --easing: cubic-bezier(.2, .9, .3, 1);
-}
-
-/* base card */
 .task-card {
-  background: var(--card-bg, #fff);
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 16px;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-  overflow: hidden;
-  transition: transform 260ms ease, box-shadow 260ms ease, opacity 180ms ease;
-  will-change: transform, box-shadow;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* compact vs expanded */
-.task-card.compact {
-  min-height: 72px;
-}
-
-.task-card.expanded {
-  padding: 16px;
-}
-
-/* head row */
-.task-card-head {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.task-card:active {
+  transform: scale(0.98);
 }
 
 .task-card-head-content {
   display: flex;
   justify-content: space-between;
-  gap: 4px;
   align-items: center;
 }
 
@@ -46,269 +23,57 @@
 }
 
 .task-icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
   display: grid;
   place-items: center;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.task-icon svg {
-  stroke: currentColor;
-  color: inherit;
-}
-
-/* Title and subline */
 .task-card-title {
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 18px;
 }
 
 .task-subline {
-  font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.6);
-  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.8;
 }
 
-.task-duration {
-  color: rgba(0, 0, 0, 0.55);
+.task-pill {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.4);
 }
 
-/* right action */
+.task-summary {
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var( --color-black);
+}
+
 .task-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 8px;
-}
-
-/* Expand button visual styling */
-.task-expand {
-  background: white;
-  border: none;
-  padding: 16px;
-  border-radius: 999px;
-  display: inline-grid;
-  place-items: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.task-expand.animated {
-  width: 40px;
-  height: 40px;
-  padding: 6px;
+  width: 48px;
+  height: 48px;
   border-radius: 9999px;
-  background: #ffffff;      
-  color: #000000;           
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--fade-duration) var(--easing);
-  will-change: transform;
+  background: rgb(255, 255, 255);
 }
 
-.task-expand.animated:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 26px rgba(10,12,20,0.16);
-}
-
-.task-expand.animated:active {
-  transform: translateY(0) scale(0.995);
-  box-shadow: 0 6px 18px rgba(10,12,20,0.12);
-}
-
-.task-expand.animated svg {
-  width: 18px;
-  height: 18px;
-  display: block;
-}
-
-/* Morphing plus/minus icons (if used) */
-.icon-stack {
-  display: inline-block;
-  position: relative;
-  width: 18px;
-  height: 18px;
-  line-height: 0;
-  vertical-align: middle;
-}
-
-.stack-icon {
-  position: absolute;
-  inset: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center;
-  transition: opacity var(--fade-duration) var(--easing),
-              transform var(--fade-duration) var(--easing);
-  opacity: 0;
-  transform: translateY(-6px) scale(.92);
-  pointer-events: none;
-}
-
-.task-expand.animated .stack-icon.plus {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.task-expand.animated .stack-icon.minus {
-  opacity: 0;
-  transform: translateY(6px) scale(0.7);
-  pointer-events: none;
-}
-
-.task-expand.animated.is-expanded .stack-icon.plus {
-  opacity: 0;
-  transform: scaleY(0.12) rotate(90deg) translateY(-4px);
-  pointer-events: none;
-}
-
-.task-expand.animated.is-expanded .stack-icon.minus {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-/* pill and summary */
-.task-pill {
-  display: inline-block;
-  padding: 6px 24px;
-  width: fit-content;
-  border-radius: 999px;
-  font-size: 1rem;
-  background-color: white;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.task-summary {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.75rem;
-  font-weight: 600;
-}
-
-/* -------------------- JS-driven body (no max-height hack) -------------------- */
-.task-body {
-  margin-top: 16px;
-  background: rgba(255,255,255,0.95);
-  border-radius: 24px;
-  display: none;               /* JS toggles display */
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-6px) scaleY(.98);
-  transform-origin: top center;
-  transition:
-    height var(--expand-duration) var(--easing),
-    opacity calc(var(--expand-duration) / 1.5) var(--easing),
-    transform var(--expand-duration) var(--easing);
-  will-change: height, opacity, transform;
-}
-
-/* CSS fallback class if you want to toggle purely with CSS */
-.task-body.open {
-  display: block;
-  opacity: 1;
-  transform: translateY(0) scaleY(1);
-}
-
-/* subtasks */
-.subtasks {
-  list-style: none;
-  padding: 0;
-  margin: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.subtask {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-radius: 12px;
-  transform: translateY(-6px);
-  opacity: 0;
-  transition: transform 300ms var(--easing), opacity 260ms var(--easing);
-}
-
-.task-card.expanded .task-body .subtask {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.task-card.expanded .task-body .subtask:nth-child(1) {
-  transition-delay: 40ms;
-}
-.task-card.expanded .task-body .subtask:nth-child(2) {
-  transition-delay: 80ms;
-}
-.task-card.expanded .task-body .subtask:nth-child(3) {
-  transition-delay: 120ms;
-}
-
-/* sub-left/meta */
-.sub-left {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.sub-label {
-  font-weight: 600;
-}
-
-.meta-pill {
-  background: #000;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  color: var(--text-invert);
-}
-
-.task-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-/* past tasks */
-.task-card.past {
-  filter: grayscale(100%);
-  cursor: default;
-  transition: opacity 180ms ease, box-shadow 180ms ease;
-  box-shadow: none;
-}
-
-.task-card.past .task-card-title,
-.task-card.past .task-subline,
-.task-card.past .task-summary,
-.task-card.past .sub-label {
-  color: var(--gray-800);
-}
-
-/* reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .stack-icon,
-  .task-body,
-  .task-expand.animated,
-  .task-card,
-  .task-body .subtask {
-    transition: none !important;
-    transform: none !important;
-  }
-
-  .task-body,
-  .task-body-wrapper {
-    display: block;
-    height: auto;
-    opacity: 1;
-  }
-}
+/* Category gradients (match UI colors) */
+.cat-workout { background: #ffe08a; }
+.cat-study { background: #ffb3b3; }
+.cat-food { background: #aee6df; }
+.cat-work { background: #ffb3b3; }
+.cat-rest { background: #b7e6e1; }
+.cat-gaming { background: #c6c6ff; }
+.cat-movie { background: #ffc57a; }

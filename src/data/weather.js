@@ -3,7 +3,7 @@ const WEATHER_CODE_MAP = {
     // exact codes
     0: { category: "clear", label: "Clear", iconDay: "IconSun", iconNight: "IconMoonStars", gradient: "clear" },
     1: { category: "mainly-clear", label: "Mainly clear", iconDay: "IconSun", iconNight: "IconMoonStars", gradient: "clear" },
-    2: { category: "partly-cloudy", label: "Partly cloudy", iconDay: "IconHaze", iconNight: "IconCloudMoon", gradient: "partly-cloudy" },
+    2: { category: "partly-cloudy", label: "Partly cloudy", iconDay: "IconHaze", iconNight: "IconCloudStar", gradient: "partly-cloudy" },
     3: { category: "overcast", label: "Overcast", iconDay: "IconCloud", iconNight: "IconCloud", gradient: "overcast" },
 
     45: { category: "fog", label: "Fog", iconDay: "IconMist", iconNight: "IconMist", gradient: "fog" },
