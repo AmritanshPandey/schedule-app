@@ -1,62 +1,47 @@
 export const CATEGORIES = {
   Workout: {
     key: "Workout",
-    icon: "gym",             
+    icon: "gym",
     gradientClass: "cat-workout",
   },
   Cardio: {
     key: "Cardio",
-    icon: "run",            
+    icon: "run",
     gradientClass: "cat-run",
-  },
-  Bike: {
-    key: "Bike",
-    icon: "bike",           
-    gradientClass: "cat-bike",
   },
   Work: {
     key: "Work",
-    icon: "briefcase",      
+    icon: "briefcase",
     gradientClass: "cat-work",
-  },
-  Food: {
-    key: "Food",
-    icon: "food",           
-    gradientClass: "cat-food",
   },
   Study: {
     key: "Study",
-    icon: "book",            
+    icon: "book",
     gradientClass: "cat-study",
   },
   Rest: {
     key: "Rest",
-    icon: "rest",            
+    icon: "rest",
     gradientClass: "cat-rest",
   },
   Project: {
     key: "Project",
-    icon: "project",      
+    icon: "project",
     gradientClass: "cat-project",
   },
-  Gaming: {
-    key: "Gaming",
-    icon: "gamepad",        
-    gradientClass: "cat-gaming",
-  },
-  Movie : {
-    key: "Movie",
-    icon: "movie",        
-    gradientClass: "cat-movie",
-  },
-  Design : {
+  Design: {
     key: "Design",
-    icon: "design",        
+    icon: "design",
     gradientClass: "cat-design",
+  },
+  Development: {
+    key: "Development",
+    icon: "dev",
+    gradientClass: "cat-dev",
   },
   Unknown: {
     key: "Unknown",
-    icon: "cloud",         
+    icon: "cloud",
     gradientClass: "cat-unknown",
   },
 };

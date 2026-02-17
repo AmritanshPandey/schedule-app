@@ -31,14 +31,10 @@ export const Icon = ({
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join("");
 
-  // explicit alias map for dataset keys you actually use
   const aliases = {
-    // workouts
     gym: "IconBarbell",
     run: "IconRun",
-    bike: "IconBike",
     rest: "IconZzz",
-    food: "IconSalad",
     book: "IconNotebook",
     laptop: "IconDeviceLaptop",
     briefcase: "IconBriefcase",

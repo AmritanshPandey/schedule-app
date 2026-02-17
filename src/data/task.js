@@ -1,3 +1,5 @@
+
+
 /* =========================================================
    Utils
 ========================================================= */
@@ -21,161 +23,322 @@ const meta = {
 /* =========================================================
    Routines
 ========================================================= */
-const WEEKDAY_ROUTINE = { wakeup: "05:00", sleep: "22:30" };
-const SAT_ROUTINE = { wakeup: "05:00", sleep: "22:30" };
-const SUN_ROUTINE = { wakeup: "08:00", sleep: "22:30" };
+const WEEKDAY_ROUTINE = { wakeup: "07:30", sleep: "21:00" };
+const OFFICE = { wakeup: "05:00", sleep: "24:00" };
+const SAT_ROUTINE = { wakeup: "07:30", sleep: "21:00" };
+const SUN_ROUTINE = { wakeup: "05:00", sleep: "21:00" };
 
 /* =========================================================
    Task Definitions
 ========================================================= */
 
+/* ---------------- Plans ---------------- */
+
+const FITNESS_PLAN = {
+  title: "Fitness Plan",
+  goal: "Target: 80kg • 1 year 6 Month",
+  sections: [
+    {
+      title: "Strength Training",
+      frequency: "4 Days a week",
+      items: [
+        "Shoulder Press",
+        "Chest Press",
+        "Lat Pulldown",
+        "Leg Press",
+        "Barbell Curl",
+        "Hammer Curl",
+        "Bench Press",
+        "Incline Walk 30 Minutes",
+      ],
+    },
+    {
+      title: "Cardio",
+      frequency: "4 Days a week",
+      items: [
+        "Incline Walk 45 minutes",
+        "Cycling 15 minutes",
+      ],
+    },
+    {
+      title: "Warm up Stretch",
+      frequency: "3 Days a week",
+      items: [
+        "Arm Circles",
+        "Arm Swings",
+        "Torso Rotations",
+        "Leg Swings",
+        "Plank",
+        "Side plank",
+        "Side Squat",
+        "Goblet Squat",
+        "Overhead Reach to Forward Fold",
+        "Goblet Squat",
+      ],
+    },
+    {
+      title: "Cool Down Stretch",
+      frequency: "7 Days a week",
+      items: [
+        "Child's Pose",
+        "Cat-Cow",
+        "Downward-Facing Dog",
+        "Seated Forward Fold"
+      ],
+    },
+    {
+      title: "Functional Training",
+      frequency: "3 Days a week",
+      items: [
+        "Dumbbell Overhead Shoulder Press",
+        "Dumbbell Front Raise",
+        "Dumbbell Bicep Curl",
+        "Dumbbell Side Bends",
+        "Dumbbell Lateral Raise",
+        "Goblet Squat",
+      ],
+    },
+  ],
+};
+
+const GMAT_750_PLAN = {
+  title: "GMAT 750+ Master Plan",
+  goal: "Target: 750+ • 5 Months",
+  sections: [
+    {
+      title: "Month 1: Foundation (No Timing)",
+      frequency: "6 Days a week • 2-3 hrs/day",
+      items: [
+        "OG Quant Review: Arithmetic & Algebra (20Q/day, untimed)",
+        "OG Verbal Review: CR Basics (Assumption, Strengthen, Weaken)",
+        "OG Data Insights Review: Learn DS, Tables, Graph formats",
+        "ChatGPT: Explain every wrong answer + trap logic",
+        "Internet: Short concept refresh only if stuck",
+        "Maintain daily error log"
+      ],
+    },
+    {
+      title: "Month 2: Accuracy + Light Timing",
+      frequency: "6 Days a week",
+      items: [
+        "OG Quant Review: Word Problems & Number Properties",
+        "Mini Timed Sets: Quant 10Q/20min",
+        "OG Verbal Review: CR Core Types + Short RC passages",
+        "OG Data Insights Review: DS + Tables (elimination focus)",
+        "Main Official Guide: Light mixed practice sets",
+        "Free Mock #1 (End of Month - Baseline Analysis)"
+      ],
+    },
+    {
+      title: "Month 3: GMAT-Level Difficulty",
+      frequency: "6 Days a week",
+      items: [
+        "OG Quant Review: Hard Questions (Rates, Inequalities, Statistics)",
+        "OG Verbal Review: Boldface CR + Long RC passages",
+        "OG Data Insights Review: Mixed Timed Sets",
+        "Main Official Guide: Section-based timed drills",
+        "ChatGPT: 750-level solving & skip strategy refinement"
+      ],
+    },
+    {
+      title: "Month 4: Weakness Fix + Test Readiness",
+      frequency: "6 Days a week",
+      items: [
+        "Focus Only on Weak Topics from Mock #1 (Use Relevant OG Review Book)",
+        "Redo All Previous Mistakes (All OG Books)",
+        "Main Official Guide: Full Section Simulations",
+        "Free Mock #2 (Fresh Attempt - Real Exam Conditions)",
+        "ChatGPT: Guessing Strategy + Time Checkpoints"
+      ],
+    },
+    {
+      title: "Month 5: Final Polish & Execute",
+      frequency: "5-6 Days a week • Light but Sharp Practice",
+      items: [
+        "Redo Error Log + Toughest Questions from All OG Books",
+        "Retake Free Mock #1 or #2 (Pacing & Calmness Check)",
+        "Daily Mixed Timed Sets (Main Official Guide)",
+        "No New Concepts or New Questions",
+        "Final 5 Days: Light Review + Rest + Mental Reset"
+      ],
+    },
+  ],
+};
+
 /* ---------------- Fitness (with Plan) ---------------- */
 
 const gymFullBody = {
   title: "Gym - Full Body",
-  start: "11:00",
-  end: "13:30",
+  start: "05:30",
+  end: "7:45",
   category: "Workout",
 
-  summary: "Strength training and cardio session",
+  summary: "Strength training",
   steps: [
-    { type: "stretch", title: "Stretching", metric: "10 min" },
-    { type: "cardio", title: "Hill Climb", metric: "2km • 30 min" },
-    { type: "cardio", title: "Eleptical", metric: "1.5 km • 20 min" },
+    { type: "stretch", title: "Warm up Stretch", metric: "10 min" },
+    { type: "strength", title: "Bench Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Shoulder Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Chest Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Lat Pulldown", metric: "3 X 10 • 5 min" },
-    { type: "strength", title: "Leg Press", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Seated Row", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Leg Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Barbell Curl", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Hammer Curl", metric: "3 X 10 • 5 min" },
+    { type: "cardio", title: "Hill Climb", metric: "2km • 30 min" },
+    { type: "stretch", title: "Cool Down Stretch", metric: "10 min" },
   ],
 
-  plan: {
-    title: "Fitness Plan",
-    goal: "Target: 80kg • 1 year 6 Month",
-    sections: [
-      {
-        title: "Strength Training",
-        frequency: "3 Days a week",
-        items: [
-          "Stretching",
-          "Shoulder Press",
-          "Chest Press",
-          "Lat Pulldown",
-          "Leg Press",
-          "Barbell Curl",
-          "Bench Press",
-          "Incline Walk 30 Minutes",
-        ],
-      },
-      {
-        title: "Cardio",
-        frequency: "4 Days a week",
-        items: [
-          "Incline Walk 60 minutes",
-          "Cycling 30 minutes",
-          "Stretching",
-        ],
-      },
-    ],
-
-
-  },
+  plan: FITNESS_PLAN,
 };
 
 
 const cardioSession = {
   title: "Cardio",
-  start: "14:00",
-  end: "16:00",
+  start: "11:00",
+  end: "13:00",
   category: "Cardio",
 
   summary: "Cardio session",
   steps: [
-    { type: "stretch", title: "Stretching", metric: "10 min" },
-    { type: "cardio", title: "Hill Climb", metric: "4.5km • 60 min" },
-    { type: "cardio", title: "Eleptical", metric: "2.5 km • 30 min" }
+    { type: "stretch", title: "Functional Training", metric: "20 min" },
+    { type: "cardio", title: "Hill Climb", metric: "4.5km • 45 min" },
+    { type: "cardio", title: "Cycling", metric: "2.5 km • 15 min" },
+    { type: "stretch", title: "Cool Down Stretch", metric: "10 min" },
   ],
 
-  plan: {
-    title: "Fitness Plan",
-    goal: "Target: 80kg • 1 year 6 Month",
-    sections: [
-      {
-        title: "Strength Training",
-        frequency: "3 Days a week",
-        items: [
-          "Stretching",
-          "Shoulder Press",
-          "Chest Press",
-          "Lat Pulldown",
-          "Leg Press",
-          "Barbell Curl",
-          "Bench Press",
-          "Incline Walk 30 Minutes",
-        ],
-      },
-      {
-        title: "Cardio",
-        frequency: "4 Days a week",
-        items: [
-          "Incline Walk 60 minutes",
-          "Cycling 30 minutes",
-          "Stretching",
-        ],
-      },
-    ],
-
-
-  },
+  plan: FITNESS_PLAN,
 };
+
+
+const cardio = {
+  title: "Cardio",
+  start: "05:30",
+  end: "06:30",
+  category: "Cardio",
+  summary: "Cardio session",
+};
+
+const walking = {
+  title: "Walking",
+  start: "20:00",
+  end: "21:00",
+  category: "Cardio",
+  summary: "Evening walk",
+};
+
+
+
+const sundayGym = {
+  title: "Gym - Full Body",
+  start: "7:30",
+  end: "10:30",
+  category: "Workout",
+
+  summary: "Strength training",
+  steps: [
+    { type: "stretch", title: "Warm up Stretch", metric: "10 min" },
+    { type: "strength", title: "Bench Press", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Shoulder Press", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Chest Press", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Lat Pulldown", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Seated Row", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Leg Press", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Barbell Curl", metric: "3 X 10 • 5 min" },
+    { type: "strength", title: "Hammer Curl", metric: "3 X 10 • 5 min" },
+    { type: "cardio", title: "Hill Climb", metric: "2km • 30 min" },
+    { type: "stretch", title: "Cool Down Stretch", metric: "10 min" },
+  ],
+
+  plan: FITNESS_PLAN,
+};
+
 
 /* ---------------- Study ---------------- */
 
 const gmatStudy = {
   title: "GMAT",
-  start: "05:00",
-  end: "07:00",
+  start: "21:00",
+  end: "24:00",
   category: "Study",
   summary: "Quant and verbal practice with mock questions",
+  steps: [
+    { type: "prep", title: "Review Error Log", metric: "10 min" },
+    { type: "quant", title: "Quant Review Practice", metric: "20 Que • 45 min" },
+    { type: "analysis", title: "Quant Mistake Analysis", metric: "15 min" },
+    { type: "verbal", title: "Verbal Review", metric: "12 Que • 35 min" },
+    { type: "analysis", title: "CR Trap Breakdown", metric: "15 min" },
+    { type: "di", title: "Data Insights Timed Set", metric: "8 Que • 20 min" },
+    { type: "strategy", title: "Skip & Time Strategy Practice", metric: "10 min" },
+    { type: "review", title: "Key Learnings", metric: "10 min" }
+  ],
+
+  plan: GMAT_750_PLAN,
+};
+
+const gmatStudy2 = {
+  title: "GMAT",
+  start: "08:00",
+  end: "11:00",
+  category: "Study",
+  summary: "Quant and verbal practice with mock questions",
+  steps: [
+    { type: "prep", title: "Review Error Log", metric: "10 min" },
+    { type: "quant", title: "Quant Review Practice", metric: "20 Que • 45 min" },
+    { type: "analysis", title: "Quant Mistake Analysis", metric: "15 min" },
+    { type: "verbal", title: "Verbal Review", metric: "12 Que • 35 min" },
+    { type: "analysis", title: "CR Trap Breakdown", metric: "15 min" },
+    { type: "di", title: "Data Insights Timed Set", metric: "8 Que • 20 min" },
+    { type: "strategy", title: "Skip & Time Strategy Practice", metric: "10 min" },
+    { type: "review", title: "Key Learnings", metric: "10 min" }
+  ],
+
+  plan: GMAT_750_PLAN,
 };
 
 const gmatweekend = {
   title: "GMAT",
-  start: "14:30",
-  end: "20:30",
+  start: "11:00",
+  end: "16:00",
   category: "Study",
   summary: "Quant and verbal practice with mock questions",
-};
-
-const commuteStudy = {
-  title: "Commute & Study",
-  start: "07:15",
-  end: "14:00",
-  category: "Project",
-  summary: "Programming and design learning during commute",
   steps: [
-    { type: "commute", title: "Commute", metric: "07:45AM • 45 min" },
-    { type: "code", title: "Programming", metric: "09:00AM • 2hr 30 min" },
-    { type: "design", title: "Design Course", metric: "11:30AM • 60 min" },
+    { type: "prep", title: "Review Error Log", metric: "10 min" },
+    { type: "quant", title: "Quant Review Practice", metric: "20 Que • 45 min" },
+    { type: "analysis", title: "Quant Mistake Analysis", metric: "15 min" },
+    { type: "verbal", title: "Verbal Review", metric: "12 Que • 35 min" },
+    { type: "analysis", title: "CR Trap Breakdown", metric: "15 min" },
+    { type: "di", title: "Data Insights Timed Set", metric: "8 Que • 20 min" },
+    { type: "strategy", title: "Skip & Time Strategy Practice", metric: "10 min" },
+    { type: "review", title: "Key Learnings", metric: "10 min" }
   ],
+  plan: GMAT_750_PLAN,
 };
 
-const projectWork = {
-  title: "Project Work",
-  start: "20:30",
-  end: "22:30",
+const design = {
+  title: "UX Design",
+  start: "13:30",
+  end: "15:30",
   category: "Design",
-  summary: "UX Designs and Prototyping",
+  summary: "Build cross-platform mobile apps with clean, scalable UI",
+};
+
+const flutter = {
+  title: "Flutter Dev",
+  start: "09:00",
+  end: "11:30",
+  category: "Project",
+  summary: "Build cross-platform mobile apps with clean, scalable UI",
+};
+
+const react = {
+  title: "React.js/ Next.js Dev",
+  start: "16:00",
+  end: "21:00",
+  category: "Project",
+  summary: "Develop fast, modern web applications with reusable components.",
 }
 
-const project = {
-  title: "Project Work",
-  start: "08:00",
-  end: "10:30",
-  category: "Project",
-  summary: "Programming work for projects",
-}
+
 
 
 
@@ -183,16 +346,16 @@ const project = {
 
 const officeWork = {
   title: "Office work",
-  start: "16:30",
-  end: "20:30",
+  start: "11:30",
+  end: "14:30",
   category: "Work",
   summary: "Design work, meetings and reviews",
 };
 
 const wfh = {
   title: "Work from Home",
-  start: "14:30",
-  end: "20:30",
+  start: "15:30",
+  end: "20:00",
   category: "Work",
   summary: "Design work, meetings and reviews",
 };
@@ -203,13 +366,21 @@ const wfh = {
 
 const sleep = {
   title: "Sleep",
-  start: "22:30",
-  end: "04:45",
+  start: "24:00",
+  end: "07:30",
+  category: "Rest",
+  summary: "Relax and wind down to sleep and recover",
+};
+
+const sleep2 = {
+  title: "Wind down & sleep",
+  start: "21:00",
+  end: "05:00",
   category: "Rest",
   summary: "Relax and wind down to sleep and recover",
   steps: [
-    { type: "skin-care", title: "Skin Care", metric: "22:30PM • 15 min" },
-    { type: "sleep", title: "Sleep", metric: "22:45PM • 6 hours" },
+    { type: "skin-care", title: "Skin Care", metric: "21:00PM • 15 min" },
+    { type: "sleep", title: "Sleep", metric: "21:15PM • 7 hours 45 min" },
   ],
 };
 
@@ -230,73 +401,72 @@ const buildDay = (weekday, routine, tasks) => ({
 
 const schedule = [
   // MON
-  buildDay("MO", WEEKDAY_ROUTINE, [
-    gmatStudy,
-    commuteStudy,
-    cardioSession,
+  buildDay("MO", OFFICE, [
+    gymFullBody,
+    flutter,
     officeWork,
-    projectWork,
+    wfh,
+    walking,
+    gmatStudy,
     sleep,
   ]),
 
   // TUE
   buildDay("TU", WEEKDAY_ROUTINE, [
-    gmatStudy,
-    project,
-    gymFullBody,
+    gmatStudy2,
+    cardioSession,
+    design,
     wfh,
-    projectWork,
-    sleep,
+    walking,
+    sleep2,
   ]),
 
-  // WED (No gym)
-  buildDay("WE", WEEKDAY_ROUTINE, [
-    gmatStudy,
-    commuteStudy,
-    cardioSession,
+  // WED 
+  buildDay("WE", OFFICE, [
+    gymFullBody,
+    flutter,
     officeWork,
-    projectWork,
+    walking,
+    gmatStudy,
     sleep,
   ]),
 
   // THU
   buildDay("TH", WEEKDAY_ROUTINE, [
-    gmatStudy,
-    project,
-    gymFullBody,
+    gmatStudy2,
+    cardioSession,
+    design,
     wfh,
-    projectWork,
-    sleep,
+    walking,
+    sleep2,
   ]),
 
   // FRI
-  buildDay("FR", WEEKDAY_ROUTINE, [
+  buildDay("FR", OFFICE, [
+    gymFullBody,
+    flutter,
+    officeWork,
+    walking,
     gmatStudy,
-    commuteStudy,
-    cardioSession,
-    gmatweekend,
-    projectWork,
     sleep,
   ]),
 
   // SAT
   buildDay("SA", SAT_ROUTINE, [
-    gmatStudy,
-    project,
-    gymFullBody,
-    gmatweekend,
-    projectWork,
-    sleep,
+    gmatStudy2,
+    cardioSession,
+    design,
+    react,
+    sleep2,
   ]),
 
   // SUN
   buildDay("SU", SUN_ROUTINE, [
-    gmatStudy,
-    project,
-    gymFullBody,
+    cardio,
+    sundayGym,
     gmatweekend,
-    projectWork,
-    sleep,
+    react,
+    sleep2,
   ]),
 ];
 
