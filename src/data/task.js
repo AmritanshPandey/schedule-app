@@ -36,66 +36,82 @@ const SUN_ROUTINE = { wakeup: "05:00", sleep: "21:00" };
 
 const FITNESS_PLAN = {
   title: "Fitness Plan",
-  goal: "Target: 80kg • 1 year 6 Month",
+  goal: "Target: 75kg • 1 year",
   sections: [
     {
       title: "Strength Training",
       frequency: "4 Days a week",
       items: [
+        "Warm up Stretch",
+        "Cycling 15 minutes",
+        "Leg Press",
+        "Bench Press",
+        "Lat Pulldown",
+        "Seated Rowing",
         "Shoulder Press",
         "Chest Press",
-        "Lat Pulldown",
-        "Leg Press",
         "Barbell Curl",
         "Hammer Curl",
-        "Bench Press",
         "Incline Walk 30 Minutes",
       ],
     },
     {
       title: "Cardio",
-      frequency: "4 Days a week",
+      frequency: "3 Days a week",
       items: [
+        "Functional Training",
         "Incline Walk 45 minutes",
-        "Cycling 15 minutes",
+        "Cycling 30 minutes",
       ],
     },
     {
       title: "Warm up Stretch",
-      frequency: "3 Days a week",
+      frequency: "4 Days a week",
       items: [
-        "Arm Circles",
-        "Arm Swings",
-        "Torso Rotations",
-        "Leg Swings",
-        "Plank",
-        "Side plank",
-        "Side Squat",
-        "Goblet Squat",
-        "Overhead Reach to Forward Fold",
-        "Goblet Squat",
+        "Arm Circles • 15 reps",
+        "Arm Swings • 15 reps",
+        "Torso Rotations • 10 each side",
+        "Leg Swings • 10 each leg",
+        "Side Squat • 10 reps",
+        "Goblet Squat • 10 reps",
+        "Overhead Reach to Forward Fold • 10 reps",
       ],
     },
     {
       title: "Cool Down Stretch",
       frequency: "7 Days a week",
       items: [
-        "Child's Pose",
-        "Cat-Cow",
-        "Downward-Facing Dog",
-        "Seated Forward Fold"
+        "Child's Pose • 30 sec",
+        "Cat-Cow • 8 reps",
+        "Downward-Facing Dog • 30 sec",
+        "Seated Forward Fold • 30 sec"
       ],
     },
     {
       title: "Functional Training",
       frequency: "3 Days a week",
       items: [
-        "Dumbbell Overhead Shoulder Press",
-        "Dumbbell Front Raise",
-        "Dumbbell Bicep Curl",
-        "Dumbbell Side Bends",
-        "Dumbbell Lateral Raise",
-        "Goblet Squat",
+        "12 Goblet Squats",
+        "12 Shoulder Presses",
+        "12 Lateral Raise",
+        "12 Bicep Curl",
+        "30 sec Plank",
+        "30 sec Mountain Climbers",
+      ],
+    },
+    {
+      title: "Diet Plan (Aggressive Cut)",
+      frequency: "7 Days a week",
+      items: [
+        "7:30 AM: Black Coffee + 1 Banana • 0g ",
+
+        "10:30 AM: Peanut Butter & Banana Sandwich  + Chach • 12g ",
+
+        "2:00 PM: 2 Chapati, Large Bowl Dal, Indian Veggies, 180g Curd, 100g Rice • 30g",
+
+        "6:30 PM: Oats + Nuts + Vegan Protein & Sandwiches • 46g",
+
+        "Hydration: 3-4 Liters of water daily"
       ],
     },
   ],
@@ -169,13 +185,14 @@ const GMAT_750_PLAN = {
 
 const gymFullBody = {
   title: "Gym - Full Body",
-  start: "05:30",
-  end: "7:45",
+  start: "12:15",
+  end: "2:00",
   category: "Workout",
 
   summary: "Strength training",
   steps: [
     { type: "stretch", title: "Warm up Stretch", metric: "10 min" },
+    { type: "cardio", title: "Cycling", metric: "15 min" },
     { type: "strength", title: "Bench Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Shoulder Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Chest Press", metric: "3 X 10 • 5 min" },
@@ -210,20 +227,21 @@ const cardioSession = {
 };
 
 
-const cardio = {
-  title: "Cardio",
-  start: "05:30",
-  end: "06:30",
-  category: "Cardio",
-  summary: "Cardio session",
-};
 
 const walking = {
   title: "Walking",
-  start: "20:00",
-  end: "21:00",
+  start: "19:30",
+  end: "20:15",
   category: "Cardio",
   summary: "Evening walk",
+};
+
+const running = {
+  title: "Running",
+  start: "05:00",
+  end: "06:00",
+  category: "Cardio",
+  summary: "Morning run",
 };
 
 
@@ -237,6 +255,7 @@ const sundayGym = {
   summary: "Strength training",
   steps: [
     { type: "stretch", title: "Warm up Stretch", metric: "10 min" },
+    { type: "cardio", title: "Running 1km", metric: "10 min" },
     { type: "strength", title: "Bench Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Shoulder Press", metric: "3 X 10 • 5 min" },
     { type: "strength", title: "Chest Press", metric: "3 X 10 • 5 min" },
@@ -255,30 +274,12 @@ const sundayGym = {
 
 /* ---------------- Study ---------------- */
 
-const gmatStudy = {
-  title: "GMAT",
-  start: "21:00",
-  end: "24:00",
-  category: "Study",
-  summary: "Quant and verbal practice with mock questions",
-  steps: [
-    { type: "prep", title: "Review Error Log", metric: "10 min" },
-    { type: "quant", title: "Quant Review Practice", metric: "20 Que • 45 min" },
-    { type: "analysis", title: "Quant Mistake Analysis", metric: "15 min" },
-    { type: "verbal", title: "Verbal Review", metric: "12 Que • 35 min" },
-    { type: "analysis", title: "CR Trap Breakdown", metric: "15 min" },
-    { type: "di", title: "Data Insights Timed Set", metric: "8 Que • 20 min" },
-    { type: "strategy", title: "Skip & Time Strategy Practice", metric: "10 min" },
-    { type: "review", title: "Key Learnings", metric: "10 min" }
-  ],
 
-  plan: GMAT_750_PLAN,
-};
 
 const gmatStudy2 = {
   title: "GMAT",
   start: "08:00",
-  end: "11:00",
+  end: "11:30",
   category: "Study",
   summary: "Quant and verbal practice with mock questions",
   steps: [
@@ -314,26 +315,27 @@ const gmatweekend = {
   plan: GMAT_750_PLAN,
 };
 
-const design = {
-  title: "UX Design",
-  start: "13:30",
-  end: "15:30",
+
+const portfolio = {
+  title: "Portfolio Projects",
+  start: "6:30",
+  end: "7:45",
   category: "Design",
   summary: "Build cross-platform mobile apps with clean, scalable UI",
 };
 
 const flutter = {
   title: "Flutter Dev",
-  start: "09:00",
-  end: "11:30",
+  start: "08:45",
+  end: "11:15",
   category: "Project",
   summary: "Build cross-platform mobile apps with clean, scalable UI",
 };
 
 const react = {
-  title: "React.js/ Next.js Dev",
-  start: "16:00",
-  end: "21:00",
+  title: "Projects",
+  start: "14:30",
+  end: "19:30",
   category: "Project",
   summary: "Develop fast, modern web applications with reusable components.",
 }
@@ -344,18 +346,12 @@ const react = {
 
 /* ---------------- Work ---------------- */
 
-const officeWork = {
-  title: "Office work",
-  start: "11:30",
-  end: "14:30",
-  category: "Work",
-  summary: "Design work, meetings and reviews",
-};
+
 
 const wfh = {
   title: "Work from Home",
-  start: "15:30",
-  end: "20:00",
+  start: "14:30",
+  end: "19:30",
   category: "Work",
   summary: "Design work, meetings and reviews",
 };
@@ -366,23 +362,13 @@ const wfh = {
 
 const sleep = {
   title: "Sleep",
-  start: "24:00",
-  end: "07:30",
+  start: "21:00",
+  end: "5:00",
   category: "Rest",
   summary: "Relax and wind down to sleep and recover",
 };
 
-const sleep2 = {
-  title: "Wind down & sleep",
-  start: "21:00",
-  end: "05:00",
-  category: "Rest",
-  summary: "Relax and wind down to sleep and recover",
-  steps: [
-    { type: "skin-care", title: "Skin Care", metric: "21:00PM • 15 min" },
-    { type: "sleep", title: "Sleep", metric: "21:15PM • 7 hours 45 min" },
-  ],
-};
+
 
 
 /* =========================================================
@@ -402,71 +388,74 @@ const buildDay = (weekday, routine, tasks) => ({
 const schedule = [
   // MON
   buildDay("MO", OFFICE, [
-    gymFullBody,
+    running,
+    portfolio,
     flutter,
-    officeWork,
+    gymFullBody,
     wfh,
     walking,
-    gmatStudy,
     sleep,
   ]),
 
   // TUE
   buildDay("TU", WEEKDAY_ROUTINE, [
+    running,
+    portfolio,
     gmatStudy2,
     cardioSession,
-    design,
     wfh,
     walking,
-    sleep2,
+    sleep,
   ]),
 
   // WED 
   buildDay("WE", OFFICE, [
-    gymFullBody,
+    running,
+    portfolio,
     flutter,
-    officeWork,
+    gymFullBody,
+    wfh,
     walking,
-    gmatStudy,
     sleep,
   ]),
 
   // THU
   buildDay("TH", WEEKDAY_ROUTINE, [
+    running,
+    portfolio,
     gmatStudy2,
     cardioSession,
-    design,
     wfh,
     walking,
-    sleep2,
+    sleep,
   ]),
 
   // FRI
   buildDay("FR", OFFICE, [
-    gymFullBody,
+    running,
+    portfolio,
     flutter,
-    officeWork,
+    gymFullBody,
+    wfh,
     walking,
-    gmatStudy,
     sleep,
   ]),
 
   // SAT
   buildDay("SA", SAT_ROUTINE, [
+    running,
     gmatStudy2,
     cardioSession,
-    design,
     react,
-    sleep2,
+    walking,
+    sleep,
   ]),
 
   // SUN
   buildDay("SU", SUN_ROUTINE, [
-    cardio,
     sundayGym,
     gmatweekend,
-    react,
-    sleep2,
+    sleep,
   ]),
 ];
 
